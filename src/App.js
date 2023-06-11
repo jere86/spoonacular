@@ -11,13 +11,12 @@ function App() {
     setText(e.target.value);
   }
   
-  function getRecipesData () {
+  function getRecipesData() {
     if (text !== ""){
       const ingredients = text.split(/ |,|, /).join(",+");
-      axios.get(`https://api.spoonacular.com/recipes/findByIngredients?apiKey=9bd11a9d9e5a4727b2d9fed3489fd620&ingredients=${ingredients}&number=6&ranking=1`)
+      axios.get(`https://api.spoonacular.com/recipes/findByIngredients?apiKey=e1f556e241884f5e8493a5f17cb629bd&ingredients=${ingredients}&number=1&ranking=1`)
       .then(res => {
         setRecipesData(res.data);
-        console.log(res.data);
       })
       .catch(err => {
         console.log(err.toJSON());

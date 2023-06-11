@@ -50,16 +50,16 @@ main {
     flex-direction: row;
     flex-wrap: wrap;
     width: 100%;
-    justify-content: space-around;
-
+    justify-content: center;
+    align-items: center;
 }
 
 .recipe {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 27%;
-    margin: 1rem;
+    width: 30%;
+    margin: 2rem;
 }
 
 .recipe h1 {
@@ -70,4 +70,6 @@ main {
 
 .recipe img {
     width: 100%;
+    border-radius: 50%;
+    margin: 1rem;
 }
