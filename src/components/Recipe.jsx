@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 export default function Recipe({recipe}) {
     const [analyzedInstructions, getAnalyzedInstructions] = useState([]);
-    const [ingredientWidget, getIngredientWidget] = useState(null);
+    const [ingredients, getIngredients] = useState([]);
 
     useEffect(() => {
         axios.get(`https://api.spoonacular.com/recipes/${recipe.id}/analyzedInstructions?apiKey=e1f556e241884f5e8493a5f17cb629bd`)
@@ -14,9 +14,10 @@ export default function Recipe({recipe}) {
             console.log(err.toJSON());
         });
 
-        axios.get(`https://api.spoonacular.com/recipes/${recipe.id}/ingredientWidget?apiKey=e1f556e241884f5e8493a5f17cb629bd&measure=metric`)
+        axios.get(`https://api.spoonacular.com/recipes/${recipe.id}/ingredientWidget.json?apiKey=e1f556e241884f5e8493a5f17cb629bd`)
         .then(res => {
-            getIngredientWidget(<div>{res.data}</div>);
+            getIngredients(res.data.ingredients);
+            console.log(res.data)
         })
         .catch(err => {
             console.log(err.toJSON());
@@ -29,9 +30,19 @@ export default function Recipe({recipe}) {
     return (
         <div className="recipe">
             <h1>{recipe.title}</h1>
-            <img src={recipe.image} alt="meal" />
+            <img src={recipe.image} alt="meal" id="recipe-image" />
             <div className="instuctions">{instuctions}</div>
-            {ingredientWidget}
+            <div className="ingredients">
+                {ingredients.map((ingredient) => {
+                    return (
+                        <div className="ingredient">
+                            <p>{ingredient.name}</p>
+                            <img src={ingredient.image} alt="ingredient" id="ingredient-image" />
+                            <p>{ingredient.amount.metric.value} {ingredient.amount.metric.unit}</p>
+                        </div>
+                    )
+                })}
+            </div>
         </div>
     )
 }
