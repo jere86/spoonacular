@@ -1,9 +1,11 @@
-import Recipe from "./Recipe"
+import Recipe from "../Recipe/Recipe"
 
-export default function RecipesList({recipesData}) {
+import styles from './RecipesList.module.scss'
+
+const RecipesList = ({recipesData}) => {
     return (
         <main>
-            <div className="recipes">
+            <div className={styles.recipes}>
                 {recipesData.map((recipe) => {
                     return <Recipe key={recipe.id} recipe={recipe} />
                 })}
@@ -11,3 +13,5 @@ export default function RecipesList({recipesData}) {
         </main>
     )
 }
+
+export default RecipesList;
