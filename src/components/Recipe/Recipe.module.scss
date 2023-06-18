@@ -1,7 +1,7 @@
 .recipe {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    align-items: center;
     width: 100%;
     margin: 2rem;
 
@@ -11,7 +11,7 @@
         padding: 0.5rem 0;
     }
     .recipeImage {
-      width: 100%;
+      width: 80%;
       border-radius: 50%;
       margin: 1rem;
     }

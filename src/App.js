@@ -1,4 +1,5 @@
 import './App.css';
+
 import Search from './pages/Search/Search';
 
 export default function App() {

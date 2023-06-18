@@ -1,15 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
-import RecipesList from '../../components/RecipesList/RecipesList'
+import styles from './Search.module.scss';
+
+import RecipesList from '../../components/RecipesList/RecipesList';
 import { getRequest } from '../../helpers/http';
-
-import styles from './Search.module.scss'
 
 const Search = () => {
   const [recipesData, setRecipesData] = useState(null);
   const [text, setText] = useState("");
 
-  function handleChange(e) {
+  const handleChange = (e) => {
     setText(e.target.value);
   }
   

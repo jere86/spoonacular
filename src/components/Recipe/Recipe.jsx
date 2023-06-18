@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
-import { getRequest } from "../../helpers/http";
 
-import styles from './Recipe.module.scss'
+import styles from './Recipe.module.scss';
+
+import Instructions from "../Instructions/Instructions";
+import Ingredients from "../Ingredients/Ingredients";
+
+import { getRequest } from "../../helpers/http";
 
 const Recipe = ({recipe}) => {
     const [analyzedInstructions, getAnalyzedInstructions] = useState([]);
@@ -20,24 +24,12 @@ const Recipe = ({recipe}) => {
         getData();
     }, [recipe.id]);
 
-    const instuctions = analyzedInstructions.map(({step}) => step).join(" ");
-
     return (
         <div className={styles.recipe}>
             <h1>{recipe.title}</h1>
             <img src={recipe.image} alt="meal" className={styles.recipeImage} />
-            <div className={styles.instuctions}>{instuctions}</div>
-            <div className={styles.ingredients}>
-                {ingredients.map((ingredient) => {
-                    return (
-                        <div className={styles.ingredient} key={ingredient.name}>
-                            <p>{ingredient.name}</p>
-                            <img src={ingredient.image} alt="ingredient" id="ingredient-image" />
-                            <p>{ingredient.amount.metric.value} {ingredient.amount.metric.unit}</p>
-                        </div>
-                    )
-                })}
-            </div>
+            <Instructions instructions={analyzedInstructions} />
+            <Ingredients ingredients={ingredients}/>
         </div>
     )
 }
