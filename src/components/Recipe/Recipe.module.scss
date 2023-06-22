@@ -1,18 +1,95 @@
 .recipe {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    margin: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  // position: relative;
+  width: 16rem;
+  margin: 2rem;
+  background-color: white;
+  box-shadow: 0.5rem 0.75rem 2rem -1.5rem black;
+  border-radius: 1rem 0 1rem;
 
-    h1 {
-        font-size: 1rem;
-        text-align: center;
-        padding: 0.5rem 0;
+  h1 {
+    width: 90%;
+    font-size: 1rem;
+    text-align: center;
+    padding: 1rem 0 0;
+  }
+  
+  .image {
+    display: flex;
+    position: relative;
+    width: 14rem;
+    height: 14rem;
+    // border: 1rem solid white;
+    margin: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    padding: 1rem;
+    border-radius: 1rem 0 1rem;
+
+    .favoritestar {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      display: flex;
+      width: 1.5rem;
+      height: 1.5rem;
+      border: none;
+      // border-radius: 50%;
+      background-color: transparent;
+  
+      input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      label {
+        width: 100%;
+
+        .star > path {
+          fill: rgba(255, 255, 255, 0.5);
+        }
+      }
+
+      input:checked + label {
+        width: 100%;
+
+        .star > path {
+          fill: gold;
+        }
+      }
+      
     }
+
     .recipeImage {
-      width: 80%;
-      border-radius: 50%;
-      margin: 1rem;
+      width: 140%;
+      height: 140%;
     }
+  }
+
+  &:hover {
+    outline: 0.25rem solid rgba(0, 60, 255, 0.1);
+  
+    .image > .favoritestar > label > .star > path {
+      cursor: pointer;
+      fill: rgb(137, 216, 255);
+
+      &:hover {
+        fill: gold;
+      }
+
+      &:active {
+        fill: rgb(208, 177, 0);
+      }
+    }
+  
+    .recipeImage {
+      transform: scale(1.02);
+      transition: transform 0.5s ease;
+    }
+  }
 }

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { AppContext } from "../../context/appContext";
 
 import styles from './Search.module.scss';
 
@@ -6,7 +7,7 @@ import RecipesList from '../../components/RecipesList/RecipesList';
 import { getRequest } from '../../helpers/http';
 
 const Search = () => {
-  const [recipesData, setRecipesData] = useState(null);
+  const { recipesData, setRecipesData } = useContext(AppContext);
   const [text, setText] = useState("");
 
   const handleChange = (e) => {
@@ -19,7 +20,7 @@ const Search = () => {
 
       const recipes = await getRequest('/recipes/findByIngredients', {
         ingredients: ingredients,
-        number: 1,
+        number: 2,
         ranking: 1
       })
 
