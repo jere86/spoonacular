@@ -7,7 +7,10 @@ export function AppContextProvider(Component) {
     const [recipe, setRecipe] = useState();
     const [recipesData, setRecipesData] = useState(null);
     const [favorites, setFavorites] = useState([]);
+
     
+    console.log(favorites);
+
     return (
       <AppContext.Provider
         value={{

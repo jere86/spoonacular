@@ -5,10 +5,14 @@ import styles from './Search.module.scss';
 
 import RecipesList from '../../components/RecipesList/RecipesList';
 import { getRequest } from '../../helpers/http';
+import { useNavigate } from "react-router-dom";
+
+import routes from "../../data/routes";
 
 const Search = () => {
   const { recipesData, setRecipesData } = useContext(AppContext);
   const [text, setText] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setText(e.target.value);
@@ -31,6 +35,10 @@ const Search = () => {
     }
   }
 
+  const reroute = () => {
+    navigate(routes.favorites);
+  }
+
   return (  
     <>
       <div className={styles.search}>
@@ -42,6 +50,7 @@ const Search = () => {
           onChange={handleChange} />
         <button onClick={getRecipesData}>Get Recipes</button>
       </div>
+      <button onClick={reroute}>Favorites</button>
       {recipesData && <RecipesList recipesData={recipesData}/>}
     </>    
   );
