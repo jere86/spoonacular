@@ -10,5 +10,5 @@
     align-items: center;
     background-color: rgb(240, 255, 241);
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
 }
