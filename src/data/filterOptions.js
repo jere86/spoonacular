@@ -72,3 +72,11 @@ export const intolerancesOptions = [
     "Tree Nut",
     "Wheat"
 ]
+
+export const showOptions = [
+    "4",
+    "12",
+    "24",
+    "48",
+    "128"
+]

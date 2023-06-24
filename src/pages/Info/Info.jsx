@@ -7,9 +7,12 @@ import Instructions from '../../components/Instructions/Instructions';
 import Ingredients from '../../components/Ingredients/Ingredients';
 
 import { getRequest } from "../../helpers/http";
+import { useNavigate } from "react-router-dom";
+import routes from "../../data/routes";
 
 const Info = () => {
     const { recipe } = useContext(AppContext);
+    const navigate = useNavigate();
 
     const [analyzedInstructions, getAnalyzedInstructions] = useState([]);
     const [ingredients, setIngredients] = useState([]);
@@ -27,11 +30,20 @@ const Info = () => {
         getData();
     }, [recipe.id]);
 
+    const routeToSearch = () => {
+        navigate(routes.search);
+    }
+
     return (
         <div className={styles.info}>
+            <button onClick={routeToSearch}>
+                <svg viewBox="0 -50 588 588">
+                    <polygon points="332.668,490 82.631,244.996 332.668,0 407.369,76.493 235.402,244.996 407.369,413.507 "></polygon>
+                </svg>
+            </button>
             <h1 className={styles.name}>{recipe.title}</h1>
-            <Instructions instructions={analyzedInstructions}/>
             <Ingredients ingredients={ingredients}/>
+            <Instructions instructions={analyzedInstructions}/>
         </div>
     )
 }

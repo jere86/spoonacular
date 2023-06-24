@@ -5,7 +5,7 @@ import { AppContext } from "../../context/appContext";
 import styles from './Search.module.scss';
 
 import { getRequest } from '../../helpers/http';
-import { cuisineOptions, dietOptions, intolerancesOptions, typeOptions } from '../../data/filterOptions';
+import { cuisineOptions, dietOptions, intolerancesOptions, showOptions, typeOptions } from '../../data/filterOptions';
 import routes from "../../data/routes";
 
 import RecipesList from '../../components/RecipesList/RecipesList';
@@ -13,15 +13,16 @@ import Filter from '../../components/Filter/Filter';
 
 const Search = () => {
   const { recipesData, setRecipesData } = useContext(AppContext);
-  const [text, setText] = useState("");
+  const [ingredients, setIngredients] = useState(null);
   const [cuisine, setCuisine] = useState(null);
   const [mealtype, setMealType] = useState(null);
   const [diet, setDiet] = useState(null);
   const [intolerances, setIntolerances] = useState(null);
+  const [number, setNumber] = useState(4);
   const navigate = useNavigate();
 
   const handleIngredients = (e) => {
-    setText(e.target.value);
+    setIngredients(e.target.value.split(/ |,|, /).join(",+"));
   }
 
   const handleCusine = (e) => {
@@ -40,46 +41,57 @@ const Search = () => {
     setIntolerances(e.target.value);
   }
   
+  const handleShowPerSearch = async (e) => {
+    setNumber(e.target.value);
+
+    const recipes = await getRequest('recipes/complexSearch', {
+      number: e.target.value,
+      includeIngredients: ingredients,
+      instructionsRequired: true,
+      cuisine: cuisine,
+      type: mealtype,
+      diet: diet,
+      intolerances: intolerances
+    });
+
+    setRecipesData(recipes);
+  }
+  
   const getRecipesData = async () => {  
-    if (text !== ""){
-      const ingredients = text.split(/ |,|, /).join(",+");
+    
+    const recipes = await getRequest('recipes/complexSearch', {
+      number: number,
+      includeIngredients: ingredients,
+      instructionsRequired: true,
+      cuisine: cuisine,
+      type: mealtype,
+      diet: diet,
+      intolerances: intolerances
+    });
 
-      const recipes = await getRequest('/recipes/complexSearch', {
-        number: 2,
-        includeIngredients: ingredients,
-        instructionsRequired: true,
-        cuisine: cuisine,
-        type: mealtype,
-        diet: diet,
-        intolerances: intolerances
-      })
-
-      setRecipesData(recipes);
-    }
-    else {
-      setRecipesData(null);
-    }
+    setRecipesData(recipes);
   }
 
-  const reroute = () => {
+  const routeToFavorites = () => {
     navigate(routes.favorites);
   }
 
   return (  
     <div className={styles.search}>
-      <button onClick={reroute} className={styles.favorites}>Favorites</button>
+      <button onClick={routeToFavorites} className={styles.favorites}>Favorites</button>
       <div className={styles.searchbar}>
         <label htmlFor="ingredients">Enter one or more ingredients:</label>
         <input id='ingredients' type='text' placeholder='e.g. "egg, butter, ham"' spellCheck={false} onChange={handleIngredients} />
       </div>
       <div className={styles.filters}>
-        <Filter filterName="Cuisine" onChange={handleCusine} options={cuisineOptions}/>
-        <Filter filterName="Meal Type" onChange={handleMealType} options={typeOptions}/>
-        <Filter filterName="Diet" onChange={handleDiet} options={dietOptions}/>
-        <Filter filterName="Intolerances" onChange={handleIntolerances} options={intolerancesOptions}/>
+        <Filter filterName="Cuisine" onChange={handleCusine} options={cuisineOptions} emptySpot={true} />
+        <Filter filterName="Meal Type" onChange={handleMealType} options={typeOptions} emptySpot={true} />
+        <Filter filterName="Diet" onChange={handleDiet} options={dietOptions} emptySpot={true} />
+        <Filter filterName="Intolerances" onChange={handleIntolerances} options={intolerancesOptions}  emptySpot={true} />
       </div>
       <button onClick={getRecipesData} className={styles.getRecipes}>Get Recipes</button>
-      {recipesData && `Number of results found: ${recipesData.totalResults}.`}
+      Number of recipes found: { recipesData ? `${recipesData.totalResults}` : '0'}.
+      <Filter filterName="Show" onChange={handleShowPerSearch} options={showOptions}  emptySpot={false} />
       {recipesData && <RecipesList recipesData={recipesData}/>}
     </div>   
   );

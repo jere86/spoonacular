@@ -11,13 +11,13 @@ const Favorites = () => {
     const { favorites } = useContext(AppContext);
     const navigate = useNavigate();
 
-    const reroute = () => {
+    const routeToSearch = () => {
         navigate(routes.search);
     }
 
     return (
         <div className={styles.favorite}>
-            <button onClick={reroute}>back to Search</button>
+            <button onClick={routeToSearch}>back to Search</button>
             <RecipesList recipesData={{results: favorites}}/>
         </div>
     )

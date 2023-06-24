@@ -6,13 +6,13 @@ import routes from "../../data/routes";
 const Index = () => {
     const navigate = useNavigate();
 
-    const reroute = () => {
+    const routeToSearch = () => {
         navigate(routes.search);
     }
 
     return (
         <div className={styles.index}>
-            <button onClick={reroute}>Search</button>
+            <button onClick={routeToSearch}>Search</button>
         </div>
     )
 

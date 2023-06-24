@@ -1,18 +1,58 @@
 .instuctions {
     display: flex;
     flex-direction: column;
+    align-items: center;
     width: 80%;
+    margin: 1rem;
 
-    // .instructionsList {
-    //     display: flex;
-    //     flex-direction: column;
-    //     align-items: center;
-    //     width: 85%;
-    //     text-align: center;
+    h1 {
+        margin: 2rem 0 1rem;
+    }
 
-    //     li {
-    //         display: flex;
-    //         flex-direction: column;
-    //     }
-    // }
+    .instructionsList {
+        display: flex;
+        flex-direction: column;
+        padding: 2rem;
+        border-radius: 2rem 0 2rem;
+        background-color: white;
+        box-shadow: 0.5rem 0.75rem 2rem -1.5rem black;
+
+
+        li {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 1rem;
+
+            div {
+                padding: 0.5rem;
+
+                p {
+                    text-align: center;
+                }
+
+                ul {
+                    display: flex;
+                    flex-direction: row;
+                    flex-wrap: wrap;
+                    justify-content: space-evenly;
+                    margin-bottom: 0.5rem;
+    
+                    li {
+                        display: flex;
+                        align-items: center;
+                        margin: 0.5rem;
+                        font-size: 1rem;
+                        padding: 0.5rem;
+                        border: 2px dashed rgb(137, 216, 255);
+                        border-radius: 1rem;
+    
+                        img {
+                            width: 4rem;
+                            height: 4rem;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

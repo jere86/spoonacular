@@ -7,39 +7,45 @@ const Instructions = ({instructions}) => {
     return (
         <div className={styles.instuctions}>
             <h1>Instructions</h1>
-            <ol className={styles.instructionsList}>
+            <ul className={styles.instructionsList}>
                 {instructions.map(({ step, ingredients, equipment, number }) => {
                     return (
-                        <li key={number} style={styles.instructionsListItem}>
+                        <li key={number} className={styles.instructionsListItem}>
                             <p>{step}</p>
-                            {ingredients && (
-                                <ul>
-                                    {ingredients.map(({ name, image }) => {
-                                        return (
-                                            <li key={uuidv4()}>
-                                                <p>{name}</p>
-                                                <img src={`https://spoonacular.com/cdn/ingredients_100x100/${image}`} alt="ingredient" />
-                                            </li>
-                                        )
-                                    })}
-                                </ul>
+                            {(ingredients.length !== 0) && (
+                                <div className={styles.ingredients}>
+                                    <p>Ingredients</p>
+                                    <ul>
+                                        {ingredients.map(({ name, image }) => {
+                                            return (
+                                                <li key={uuidv4()}>
+                                                    <p>{name}</p>
+                                                    <img src={`https://spoonacular.com/cdn/ingredients_100x100/${image}`} alt="ingredient" />
+                                                </li>
+                                            )
+                                        })}
+                                    </ul>
+                                </div>
                             )}
-                            {equipment && (
-                                <ul>
-                                    {equipment.map(({ name, image }) => {
-                                        return (
-                                            <li key={uuidv4()}>
-                                                <p>{name}</p>
-                                                <img src={`https://spoonacular.com/cdn/equipment_100x100/${image}`} alt="equipment" />
-                                            </li>
-                                        )
-                                    })}
-                                </ul>
+                            {(equipment.length !== 0) && (
+                                <div className={styles.equipment}>
+                                    <p>Equipment</p>
+                                    <ul>
+                                        {equipment.map(({ name, image }) => {
+                                            return (
+                                                <li key={uuidv4()}>
+                                                    <p>{name}</p>
+                                                    <img src={`https://spoonacular.com/cdn/equipment_100x100/${image}`} alt="equipment" />
+                                                </li>
+                                            )
+                                        })}
+                                    </ul>
+                                </div>
                             )}
                         </li>
                     )
                 })}
-            </ol>
+            </ul>
         </div>
     )
 }

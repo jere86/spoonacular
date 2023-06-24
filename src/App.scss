@@ -1,14 +1,19 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
 
 #root {
     display: flex;
     flex-direction: column;
     align-items: center;
     background-color: rgb(240, 255, 241);
-    width: 100vw;
+    width: 100%;
     min-height: 100vh;
+}
+
+#Show {
+    display: flex;
+    flex-direction: row;
+    align-self: flex-end;
+
+    label {
+        margin-right: 0.5rem;
+    }
 }

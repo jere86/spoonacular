@@ -4,7 +4,7 @@
   align-items: center;
   text-align: center;
   width: 100%;
-  padding: 1rem;
+  padding: 1rem 1.5rem;
 
   .searchbar {
     display: flex;
@@ -36,6 +36,7 @@
     margin: 1rem 0;
     padding: 0.5rem 0;
     width: 30%;
+    min-width: min-content;
     border: none;
     border-radius: 0.5rem;
     background-color: brown;
@@ -51,14 +52,16 @@
 
 .favorites {
   align-self: flex-end;
-  margin-bottom: 1rem ;
   padding: 0.5rem 0;
+  margin-bottom: -1rem;
   width: 10%;
+  min-width: min-content;
   border: none;
   border-radius: 0.5rem;
   background-color: gold;
   text-transform: uppercase;
   color: black;
+  z-index: 5;
 
   &:hover {
     cursor: pointer;

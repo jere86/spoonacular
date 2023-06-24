@@ -1,4 +1,4 @@
-import './App.css';
+import './App.scss';
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
