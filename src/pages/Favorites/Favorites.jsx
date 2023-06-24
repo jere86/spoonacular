@@ -18,7 +18,7 @@ const Favorites = () => {
     return (
         <div className={styles.favorite}>
             <button onClick={reroute}>back to Search</button>
-            <RecipesList recipesData={favorites}/>
+            <RecipesList recipesData={{results: favorites}}/>
         </div>
     )
 }

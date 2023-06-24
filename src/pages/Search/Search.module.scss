@@ -1,28 +1,49 @@
 .search {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50%;
+
+  label, input {
+    padding: 0.5rem 0;
+    text-align: center;
+    width: 75%;
+  }
+
+  .filters {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 50%;
+    flex-direction: row;
+  }
 
-    label, input {
-      padding: 0.5rem 0;
-      text-align: center;
-      width: 75%;
+  .getRecipes {
+    margin: 1rem 0;
+    padding: 0.5rem 0;
+    width: 70%;
+    border: none;
+    border-radius: 0.5rem;
+    background-color: brown;
+    text-transform: uppercase;
+    color: white;
+
+    &:hover {
+      cursor: pointer;
+      background-color: rgb(137, 33, 33);
     }
+  }
+}
 
-    button {
-      margin: 1rem 0;
-      padding: 0.5rem 0;
-      width: 70%;
-      border: none;
-      border-radius: 0.5rem;
-      background-color: brown;
-      text-transform: uppercase;
-      color: white;
+.favorites {
+  margin: 1rem 0;
+  padding: 0.5rem 0;
+  width: 20%;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: gold;
+  text-transform: uppercase;
+  color: black;
 
-      &:hover {
-        cursor: pointer;
-        background-color: rgb(137, 33, 33);
-      }
-    }
+  &:hover {
+    cursor: pointer;
+    background-color: goldenrod;
+  }
 }
