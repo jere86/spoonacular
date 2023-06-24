@@ -66,30 +66,22 @@ const Search = () => {
   }
 
   return (  
-    <>
-      <div className={styles.search}>
-        <label htmlFor="ingredients">Enter one or more ingredients:</label>
-        <input
-          id='ingredients'
-          type='text'
-          placeholder='e.g. "egg, butter, ham"'
-          spellCheck={false}
-          onChange={handleIngredients} 
-        />
-
-        <div className={styles.filters}>
-          <Filter filterName="Cuisine" onChange={handleCusine} options={cuisineOptions}/>
-          <Filter filterName="Meal Type" onChange={handleMealType} options={typeOptions}/>
-          <Filter filterName="Diet" onChange={handleDiet} options={dietOptions}/>
-          <Filter filterName="Intolerances" onChange={handleIntolerances} options={intolerancesOptions}/>
-        </div>
-
-        <button onClick={getRecipesData} className={styles.getRecipes}>Get Recipes</button>
-        {recipesData && `Number of results found: ${recipesData.totalResults}.`}
-      </div>
+    <div className={styles.search}>
       <button onClick={reroute} className={styles.favorites}>Favorites</button>
+      <div className={styles.searchbar}>
+        <label htmlFor="ingredients">Enter one or more ingredients:</label>
+        <input id='ingredients' type='text' placeholder='e.g. "egg, butter, ham"' spellCheck={false} onChange={handleIngredients} />
+      </div>
+      <div className={styles.filters}>
+        <Filter filterName="Cuisine" onChange={handleCusine} options={cuisineOptions}/>
+        <Filter filterName="Meal Type" onChange={handleMealType} options={typeOptions}/>
+        <Filter filterName="Diet" onChange={handleDiet} options={dietOptions}/>
+        <Filter filterName="Intolerances" onChange={handleIntolerances} options={intolerancesOptions}/>
+      </div>
+      <button onClick={getRecipesData} className={styles.getRecipes}>Get Recipes</button>
+      {recipesData && `Number of results found: ${recipesData.totalResults}.`}
       {recipesData && <RecipesList recipesData={recipesData}/>}
-    </>    
+    </div>   
   );
 }
 
