@@ -17,7 +17,11 @@ const Favorites = () => {
 
     return (
         <div className={styles.favorite}>
-            <button onClick={routeToSearch}>back to Search</button>
+            <button onClick={routeToSearch}>
+                <svg viewBox="0 -50 588 588">
+                    <polygon points="332.668,490 82.631,244.996 332.668,0 407.369,76.493 235.402,244.996 407.369,413.507 "></polygon>
+                </svg>
+            </button>
             <RecipesList recipesData={{results: favorites}}/>
         </div>
     )

@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 80%;
+    width: 90%;
     margin: 1rem;
 
     h1 {
@@ -12,43 +12,64 @@
     .instructionsList {
         display: flex;
         flex-direction: column;
-        padding: 2rem;
+        justify-content: space-between;
+        width: 100%;
+        padding: 3rem 3rem 0rem;
         border-radius: 2rem 0 2rem;
         background-color: white;
         box-shadow: 0.5rem 0.75rem 2rem -1.5rem black;
-
+        // text-align: center;
 
         li {
             display: flex;
             flex-direction: column;
             margin-bottom: 1rem;
 
+            p {
+                font-weight: bold;
+            }
+
             div {
-                padding: 0.5rem;
+                padding: 0.5rem 0.5rem 0.5rem 1rem;
 
                 p {
-                    text-align: center;
+                    font-weight: 400;
+                    font-size: 1rem;
+                    // text-transform: uppercase;
                 }
 
                 ul {
                     display: flex;
                     flex-direction: row;
                     flex-wrap: wrap;
-                    justify-content: space-evenly;
+                    // justify-content: center;
                     margin-bottom: 0.5rem;
+                    
+                    p {
+                        text-transform: lowercase;
+                    }
     
                     li {
                         display: flex;
                         align-items: center;
+                        justify-content: space-between;
+                        min-height: 5rem;
                         margin: 0.5rem;
                         font-size: 1rem;
-                        padding: 0.5rem;
+                        padding: 0.25rem 0.5rem 0.5rem;
                         border: 2px dashed rgb(137, 216, 255);
-                        border-radius: 1rem;
+                        border-radius: 1rem 0 1rem;
+                        box-shadow: 0.3rem 0.5rem 0.75rem -0.3rem rgb(137, 216, 255);
+                        overflow: visible;
+
+                        p {
+                            margin-bottom: 0.5rem;
+                        }
     
                         img {
                             width: 4rem;
-                            height: 4rem;
+                            height: auto;
+                            max-height: 4rem;
                         }
                     }
                 }

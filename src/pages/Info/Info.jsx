@@ -1,10 +1,12 @@
 import { useEffect, useState, useContext } from "react";
 import { AppContext } from "../../context/appContext";
 
+import "./Nutrition.css";
 import styles from './Info.module.scss';
 
 import Instructions from '../../components/Instructions/Instructions';
 import Ingredients from '../../components/Ingredients/Ingredients';
+import Nutrition from '../../components/Nutrition/Nutrition';
 
 import { getRequest } from "../../helpers/http";
 import { useNavigate } from "react-router-dom";
@@ -42,8 +44,9 @@ const Info = () => {
                 </svg>
             </button>
             <h1 className={styles.name}>{recipe.title}</h1>
-            <Ingredients ingredients={ingredients}/>
+            <Ingredients ingredients={ingredients} recipe={recipe}/>
             <Instructions instructions={analyzedInstructions}/>
+            <Nutrition recipe={recipe}/>
         </div>
     )
 }

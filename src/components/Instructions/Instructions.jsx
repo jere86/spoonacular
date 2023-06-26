@@ -11,7 +11,7 @@ const Instructions = ({instructions}) => {
                 {instructions.map(({ step, ingredients, equipment, number }) => {
                     return (
                         <li key={number} className={styles.instructionsListItem}>
-                            <p>{step}</p>
+                            <p>{number}. {step}</p>
                             {(ingredients.length !== 0) && (
                                 <div className={styles.ingredients}>
                                     <p>Ingredients</p>

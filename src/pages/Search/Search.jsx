@@ -90,7 +90,7 @@ const Search = () => {
         <Filter filterName="Intolerances" onChange={handleIntolerances} options={intolerancesOptions}  emptySpot={true} />
       </div>
       <button onClick={getRecipesData} className={styles.getRecipes}>Get Recipes</button>
-      Number of recipes found: { recipesData ? `${recipesData.totalResults}` : '0'}.
+      {recipesData && <p>Number of recipes found: { recipesData ? `${recipesData.totalResults}` : '0'}.</p>}
       <Filter filterName="Show" onChange={handleShowPerSearch} options={showOptions}  emptySpot={false} />
       {recipesData && <RecipesList recipesData={recipesData}/>}
     </div>   
