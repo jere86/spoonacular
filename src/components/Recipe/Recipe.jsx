@@ -13,7 +13,7 @@ const Recipe = ({recipe}) => {
     
     const showInfo = () => {
         setRecipe(recipe);
-        navigate(routes.info);
+        navigate(`${routes.info}/${recipe.id}`);
     }
 
     const starClick = (e) => {

@@ -21,16 +21,16 @@ const Info = () => {
 
     useEffect(() => {
         const getData = async () => {
-
-            const instructions = await getRequest(`/recipes/${recipe.id}/analyzedInstructions`);
+            const id = window.location.href.split('/').pop();
+            const instructions = await getRequest(`/recipes/${id}/analyzedInstructions`);
             getAnalyzedInstructions(instructions[0].steps);
 
-            const response = await getRequest(`/recipes/${recipe.id}/ingredientWidget.json`);
+            const response = await getRequest(`/recipes/${id}/ingredientWidget.json`);
             setIngredients(response.ingredients);
         }
             
         getData();
-    }, [recipe.id]);
+    }, []);
 
     const routeToSearch = () => {
         navigate(routes.search);
@@ -43,8 +43,8 @@ const Info = () => {
                     <polygon points="332.668,490 82.631,244.996 332.668,0 407.369,76.493 235.402,244.996 407.369,413.507 "></polygon>
                 </svg>
             </button>
-            <h1 className={styles.name}>{recipe.title}</h1>
-            <Ingredients ingredients={ingredients} recipe={recipe}/>
+            {/* <h1 className={styles.name}>{recipe.title}</h1> */}
+            {/* <Ingredients ingredients={ingredients} recipe={recipe}/> */}
             <Instructions instructions={analyzedInstructions}/>
             <Nutrition recipe={recipe}/>
         </div>
