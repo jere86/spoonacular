@@ -36,6 +36,8 @@ const Info = () => {
         navigate(routes.search);
     }
 
+    console.log(analyzedInstructions)
+
     return (
         <div className={styles.info}>
             <button onClick={routeToSearch}>
