@@ -1,8 +1,8 @@
 const routes = {
-    index: "/",
-    search: "/search",
-    info: "/info",
-    favorites: "/favorites"
+  index: "/",
+  search: "/search",
+  info: "/info",
+  favorites: "/favorites",
 };
 
 export default routes;

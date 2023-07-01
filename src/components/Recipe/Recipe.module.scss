@@ -19,7 +19,7 @@
     text-align: center;
     padding: 1rem 0 0;
   }
-  
+
   .image {
     display: flex;
     position: relative;
@@ -44,7 +44,7 @@
       // border-radius: 50%;
       background-color: transparent;
       z-index: 10;
-  
+
       input {
         opacity: 0;
         width: 0;
@@ -66,7 +66,6 @@
           fill: gold;
         }
       }
-      
     }
 
     .recipeImage {
@@ -77,7 +76,7 @@
 
   &:hover {
     outline: 0.25rem solid rgba(0, 60, 255, 0.1);
-  
+
     .image > .favoritestar > label > .star > path {
       cursor: pointer;
       fill: rgb(137, 216, 255);
@@ -90,7 +89,7 @@
         fill: rgb(208, 177, 0);
       }
     }
-  
+
     .recipeImage {
       transform: scale(1.02);
       transition: transform 0.5s ease;

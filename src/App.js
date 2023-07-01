@@ -1,34 +1,23 @@
-import './App.scss';
+import { useContext } from "react";
+import { Route, Routes } from "react-router-dom";
+import { AppContext } from "./context/appContext";
 
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import "./App.scss";
 
-import Index from './pages/Index/Index';
-import Search from './pages/Search/Search';
-import Info from './pages/Info/Info';
-import Favorites from './pages/Favorites/Favorites';
-
-import routes from "./data/routes";
+import Index from "./pages/Index/Index";
+import Search from "./pages/Search/Search";
+import Info from "./pages/Info/Info";
+import Favorites from "./pages/Favorites/Favorites";
 
 export default function App() {
-  
-  const router = createBrowserRouter([
-    {
-      path: routes.index,
-      element: <Index />,
-    },
-    {
-      path: routes.search,
-      element: <Search />,
-    },
-    {
-      path: routes.info,
-      element: <Info />,
-    },
-    {
-      path: routes.favorites,
-      element: <Favorites />,
-    }
-  ]);
-  
-  return <RouterProvider router={router} />;
+  const { recipe } = useContext(AppContext);
+
+  return (
+    <Routes>
+      <Route path="/" element={<Index />} />
+      <Route path="/search" element={<Search />} />
+      <Route path={`/info/${recipe.id}`} element={<Info />} />
+      <Route path="/favorites" element={<Favorites />} />
+    </Routes>
+  );
 }

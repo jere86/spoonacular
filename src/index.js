@@ -1,20 +1,24 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter as Router } from "react-router-dom";
 
-import './index.css';
+import "./index.css";
 
-import App from './App';
+import App from "./App";
 import { AppContextProvider } from "./context/appContext";
 
-import reportWebVitals from './reportWebVitals';
+import reportWebVitals from "./reportWebVitals";
 
 const Application = AppContextProvider(App);
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   // <React.StrictMode>
+  <Router>
     <Application />
+  </Router>
+
   // </React.StrictMode>
 );
 

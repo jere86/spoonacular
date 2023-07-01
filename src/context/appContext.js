@@ -11,12 +11,12 @@ export function AppContextProvider(Component) {
     return (
       <AppContext.Provider
         value={{
-            recipe,
-            setRecipe,
-            favorites,
-            setFavorites,
-            recipesData,
-            setRecipesData
+          recipe,
+          setRecipe,
+          favorites,
+          setFavorites,
+          recipesData,
+          setRecipesData,
         }}
       >
         <Component {...props} />
