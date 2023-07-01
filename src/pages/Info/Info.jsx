@@ -10,7 +10,6 @@ import Nutrition from "../../components/Nutrition/Nutrition";
 
 import { getRequest } from "../../helpers/http";
 import { useNavigate } from "react-router-dom";
-import routes from "../../data/routes";
 
 const Info = () => {
   const { recipe } = useContext(AppContext);
@@ -36,7 +35,7 @@ const Info = () => {
   }, [recipe.id]);
 
   const routeToSearch = () => {
-    navigate(routes.search);
+    navigate("/search");
   };
 
   return (

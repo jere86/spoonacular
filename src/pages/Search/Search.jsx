@@ -12,7 +12,6 @@ import {
   showOptions,
   typeOptions,
 } from "../../data/filterOptions";
-import routes from "../../data/routes";
 
 import RecipesList from "../../components/RecipesList/RecipesList";
 import Filter from "../../components/Filter/Filter";
@@ -78,7 +77,7 @@ const Search = () => {
   };
 
   const routeToFavorites = () => {
-    navigate(routes.favorites);
+    navigate("/favorites");
   };
 
   return (

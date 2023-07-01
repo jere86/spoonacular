@@ -2,7 +2,6 @@ import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { AppContext } from "../../context/appContext";
-import routes from "../../data/routes";
 
 import styles from "./Recipe.module.scss";
 
@@ -15,7 +14,7 @@ const Recipe = ({ recipe }) => {
 
   const showInfo = () => {
     setRecipe(recipe);
-    navigate(`${routes.info}/${recipe.id}`);
+    navigate("/info");
   };
 
   const starClick = (e) => {
