@@ -14,7 +14,7 @@ const Recipe = ({ recipe }) => {
 
   const showInfo = () => {
     setRecipe(recipe);
-    navigate("/info");
+    navigate(`/info/${recipe.id}`);
   };
 
   const starClick = (e) => {
@@ -37,6 +37,7 @@ const Recipe = ({ recipe }) => {
           <input
             type="checkbox"
             id={recipe.id}
+            name={recipe.id}
             checked={isToggled}
             onChange={onToggle}
           />

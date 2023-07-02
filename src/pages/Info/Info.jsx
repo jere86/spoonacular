@@ -9,12 +9,11 @@ import Ingredients from "../../components/Ingredients/Ingredients";
 import Nutrition from "../../components/Nutrition/Nutrition";
 
 import { getRequest } from "../../helpers/http";
-import { useNavigate } from "react-router-dom";
+// import { useParams } from "react-router-dom";
 
 const Info = () => {
+  // const { id } = useParams();
   const { recipe } = useContext(AppContext);
-  const navigate = useNavigate();
-
   const [analyzedInstructions, getAnalyzedInstructions] = useState([]);
   const [ingredients, setIngredients] = useState([]);
 
@@ -34,17 +33,8 @@ const Info = () => {
     getData();
   }, [recipe.id]);
 
-  const routeToSearch = () => {
-    navigate("/search");
-  };
-
   return (
     <div className={styles.info}>
-      <button onClick={routeToSearch}>
-        <svg viewBox="0 -50 588 588">
-          <polygon points="332.668,490 82.631,244.996 332.668,0 407.369,76.493 235.402,244.996 407.369,413.507 "></polygon>
-        </svg>
-      </button>
       <h1 className={styles.name}>{recipe.title}</h1>
       <Ingredients ingredients={ingredients} recipe={recipe} />
       <Instructions instructions={analyzedInstructions} />

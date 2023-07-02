@@ -1,5 +1,4 @@
 import React, { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../context/appContext";
 
 import styles from "./Search.module.scss";
@@ -24,13 +23,12 @@ const Search = () => {
   const [diet, setDiet] = useState(null);
   const [intolerances, setIntolerances] = useState(null);
   const [number, setNumber] = useState(4);
-  const navigate = useNavigate();
 
   const handleIngredients = (e) => {
     setIngredients(e.target.value.split(/ |,|, /).join(",+"));
   };
 
-  const handleCusine = (e) => {
+  const handleCuisine = (e) => {
     setCuisine(e.target.value);
   };
 
@@ -76,19 +74,13 @@ const Search = () => {
     setRecipesData(recipes);
   };
 
-  const routeToFavorites = () => {
-    navigate("/favorites");
-  };
-
   return (
     <div className={styles.search}>
-      <button onClick={routeToFavorites} className={styles.favorites}>
-        Favorites
-      </button>
       <div className={styles.searchbar}>
         <label htmlFor="ingredients">Enter one or more ingredients:</label>
         <input
           id="ingredients"
+          name="ingredients"
           type="text"
           placeholder='e.g. "egg, butter, ham"'
           spellCheck={false}
@@ -98,7 +90,7 @@ const Search = () => {
       <div className={styles.filters}>
         <Filter
           filterName="Cuisine"
-          onChange={handleCusine}
+          onChange={handleCuisine}
           options={cuisineOptions}
           emptySpot={true}
         />

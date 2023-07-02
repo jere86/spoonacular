@@ -5,26 +5,22 @@
   text-align: center;
   width: 100%;
   padding: 1rem 1.5rem;
-
   .searchbar {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
-
     input {
       margin-bottom: 1rem;
       padding: 0.5rem 0;
       width: 50%;
       text-align: center;
     }
-
     label {
       // align-self: start;
       text-align: left;
     }
   }
-
   .filters {
     display: flex;
     flex-direction: row;
@@ -42,29 +38,9 @@
     background-color: brown;
     text-transform: uppercase;
     color: white;
-
     &:hover {
       cursor: pointer;
       background-color: rgb(137, 33, 33);
     }
-  }
-}
-
-.favorites {
-  align-self: flex-end;
-  padding: 0.5rem 0;
-  margin-bottom: -1rem;
-  width: 10%;
-  min-width: min-content;
-  border: none;
-  border-radius: 0.5rem;
-  background-color: gold;
-  text-transform: uppercase;
-  color: black;
-  z-index: 5;
-
-  &:hover {
-    cursor: pointer;
-    background-color: goldenrod;
   }
 }
