@@ -27,7 +27,6 @@
     justify-content: center;
     width: 100vw;
   }
-
   .getRecipes {
     margin: 1rem 0;
     padding: 0.5rem 0;
@@ -35,12 +34,12 @@
     min-width: min-content;
     border: none;
     border-radius: 0.5rem;
-    background-color: brown;
+    background-color: #a52a2a;
     text-transform: uppercase;
     color: white;
     &:hover {
       cursor: pointer;
-      background-color: rgb(137, 33, 33);
+      background-color: #8c2323;
     }
   }
 }

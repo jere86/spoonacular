@@ -5,7 +5,7 @@ import styles from "./Instructions.module.scss";
 const Instructions = ({ instructions }) => {
   return (
     <div className={styles.instuctions}>
-      <h1>Instructions</h1>
+      <h2>Instructions</h2>
       <ul className={styles.instructionsList}>
         {instructions.map(({ step, ingredients, equipment, number }) => {
           return (

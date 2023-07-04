@@ -5,35 +5,4 @@
   position: relative;
   padding: 2rem;
   width: 100%;
-
-  button {
-    position: absolute;
-    top: 1rem;
-    right: 2rem;
-    height: 3rem;
-    width: 3rem;
-    border: none;
-    border-radius: 50%;
-    background-color: transparent;
-
-    svg {
-      height: 3rem;
-      width: 3rem;
-
-      polygon {
-        fill: gray;
-      }
-    }
-
-    &:hover {
-      svg > polygon {
-        fill: rgb(137, 216, 255);
-      }
-    }
-  }
-
-  div:nth-child(5) {
-    width: 90%;
-    margin-top: 3rem;
-  }
 }

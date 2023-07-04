@@ -3,7 +3,10 @@ import styles from "./Home.module.scss";
 const Home = () => {
   return (
     <div className={styles.home}>
-      <h1>Spoonacular Page</h1>
+      <img
+        src="http://spoonacular.com/application/frontend/images/logo-simple-framed-green-gradient.svg"
+        alt="spoonacular logo"
+      ></img>
     </div>
   );
 };

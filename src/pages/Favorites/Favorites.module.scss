@@ -6,30 +6,4 @@
   width: 100%;
   height: min-content;
   padding-top: 3rem;
-
-  button {
-    position: absolute;
-    top: 1rem;
-    right: 2rem;
-    height: 3rem;
-    width: 3rem;
-    border: none;
-    border-radius: 50%;
-    background-color: transparent;
-
-    svg {
-      height: 3rem;
-      width: 3rem;
-
-      polygon {
-        fill: gray;
-      }
-    }
-
-    &:hover {
-      svg > polygon {
-        fill: rgb(137, 216, 255);
-      }
-    }
-  }
 }

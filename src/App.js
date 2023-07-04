@@ -1,10 +1,4 @@
-import {
-  Link,
-  Route,
-  Routes,
-  useMatch,
-  useResolvedPath,
-} from "react-router-dom";
+import { NavLink, Route, Routes } from "react-router-dom";
 
 import styles from "./App.module.scss";
 
@@ -17,10 +11,25 @@ export default function App() {
   return (
     <>
       <nav className={styles.navbar}>
-        <Link to="/">Home</Link>
+        <NavLink
+          to="/"
+          className={({ isActive }) => (isActive ? styles.active : "")}
+        >
+          HOME
+        </NavLink>
         <ul>
-          <CustomLink to="/search">Search</CustomLink>
-          <CustomLink to="/favorites">Favorites</CustomLink>
+          <NavLink
+            to="/search"
+            className={({ isActive }) => (isActive ? styles.active : "")}
+          >
+            SEARCH
+          </NavLink>
+          <NavLink
+            to="/favorites"
+            className={({ isActive }) => (isActive ? styles.active : "")}
+          >
+            FAVORITES
+          </NavLink>
         </ul>
       </nav>
       <Routes>
@@ -31,16 +40,4 @@ export default function App() {
       </Routes>
     </>
   );
-
-  function CustomLink({ to, children, ...props }) {
-    const resolvePath = useResolvedPath(to);
-    const isActive = useMatch({ path: resolvePath.pathname });
-    return (
-      <li className={isActive ? `${styles.active}` : ""}>
-        <Link to={to} {...props}>
-          {children}
-        </Link>
-      </li>
-    );
-  }
 }

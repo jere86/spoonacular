@@ -1,10 +1,9 @@
 import styles from "./Ingredients.module.scss";
 
-const Ingredients = ({ ingredients, recipe }) => {
+const Ingredients = ({ ingredients }) => {
   return (
     <div className={styles.ingredients}>
-      <h1>Ingredients</h1>
-      {/* <div className={styles.ingredientsView}> */}
+      <h2>Ingredients</h2>
       <div className={styles.ingredientsList}>
         {ingredients.map((ingredient) => {
           return (
@@ -22,7 +21,6 @@ const Ingredients = ({ ingredients, recipe }) => {
           );
         })}
       </div>
-      {/* </div> */}
     </div>
   );
 };
