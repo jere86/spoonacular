@@ -1,4 +1,5 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
+import { saveUsersToLocalStorage } from "../helpers/users";
 
 export const AppContext = createContext();
 
@@ -17,7 +18,32 @@ export function AppContextProvider(Component) {
     };
 
     const [users, setUsers] = useState(getUsersFromLocalStorage());
-    console.log(users);
+    // console.log(users);
+
+    const addFavoriteToCurrentUser = (favorite) => {
+      setUsers(prevUsers => ([
+        ...prevUsers.map(user => {
+          if(user.username === username) {
+            return {
+              ...user,
+              favorites: [...user.favorites, favorite] // tu jos treba filtrirat da se ne dodaju duplikati, tj hendlat brisanje
+            }
+          } else {
+            return {
+              ...user
+            }
+          }
+        })
+      ]))
+    }
+
+    const getCurrentUserFavorites = () => {
+      return users.find(user => user.username === username)?.favorites;
+    }
+    
+    useEffect(() => {
+      saveUsersToLocalStorage(users)
+    }, [users])
 
     return (
       <AppContext.Provider
@@ -36,6 +62,8 @@ export function AppContextProvider(Component) {
           setEmail,
           loggedIn,
           setLoggedIn,
+          addFavoriteToCurrentUser,
+          getCurrentUserFavorites
         }}
       >
         <Component {...props} />

@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { AppContext } from "../../context/appContext";
@@ -6,7 +6,7 @@ import { AppContext } from "../../context/appContext";
 import styles from "./Recipe.module.scss";
 
 const Recipe = ({ recipe }) => {
-  const { favorites, setFavorites, setRecipe, users, username } =
+  const { favorites, setFavorites, setRecipe, users, username, addFavoriteToCurrentUser } =
     useContext(AppContext);
   const [isToggled, setIsToggled] = useState(
     favorites.includes(recipe) ? true : false
@@ -24,12 +24,15 @@ const Recipe = ({ recipe }) => {
 
   const onToggle = () => {
     setIsToggled(!isToggled);
-    !isToggled
-      ? setFavorites([...favorites, recipe])
-      : setFavorites(favorites.filter((favorite) => favorite.id !== recipe.id));
-    const currentUser = users.filter((user) => user.username === username);
-    currentUser.favorites = favorites;
+
+
+    addFavoriteToCurrentUser(recipe);
+
   };
+
+  useEffect(() => {
+    console.log("useri u kontextu su: ", users)
+  }, [users])
 
   return (
     <div className={styles.recipe} onClick={showInfo}>

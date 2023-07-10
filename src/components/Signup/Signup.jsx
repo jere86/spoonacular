@@ -4,6 +4,7 @@ import { postRequest } from "../../helpers/http";
 
 import styles from "./Signup.module.scss";
 import { useNavigate } from "react-router-dom";
+import { saveUsersToLocalStorage } from "../../helpers/users";
 
 const Signup = () => {
   const {
@@ -18,10 +19,6 @@ const Signup = () => {
   } = useContext(AppContext);
 
   const navigate = useNavigate();
-
-  const saveUsersToLocalStorage = (users) => {
-    localStorage.setItem("users", JSON.stringify(users));
-  };
 
   const handleSignup = async (e) => {
     e.preventDefault();
