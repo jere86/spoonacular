@@ -1,1 +1,14 @@
 GET https://api.spoonacular.com/recipes/complexSearch?apiKey=9bd11a9d9e5a4727b2d9fed3489fd620
+
+###
+
+POST https://api.spoonacular.com/users/connect?apiKey=9bd11a9d9e5a4727b2d9fed3489fd620
+username: je_Re
+
+###
+
+GET https://api.spoonacular.com/mealplanner/rere1/week/2023-07-08?hash=99d2606e0d419adf8090f845fb227d923b46e23d&apiKey=9bd11a9d9e5a4727b2d9fed3489fd620
+
+###
+
+GET https://api.spoonacular.com/mealplanner/generate?timeFrame=week&apiKey=9bd11a9d9e5a4727b2d9fed3489fd620

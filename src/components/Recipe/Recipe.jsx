@@ -6,7 +6,8 @@ import { AppContext } from "../../context/appContext";
 import styles from "./Recipe.module.scss";
 
 const Recipe = ({ recipe }) => {
-  const { favorites, setFavorites, setRecipe } = useContext(AppContext);
+  const { favorites, setFavorites, setRecipe, users, username } =
+    useContext(AppContext);
   const [isToggled, setIsToggled] = useState(
     favorites.includes(recipe) ? true : false
   );
@@ -26,6 +27,8 @@ const Recipe = ({ recipe }) => {
     !isToggled
       ? setFavorites([...favorites, recipe])
       : setFavorites(favorites.filter((favorite) => favorite.id !== recipe.id));
+    const currentUser = users.filter((user) => user.username === username);
+    currentUser.favorites = favorites;
   };
 
   return (

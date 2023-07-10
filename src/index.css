@@ -13,6 +13,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  /* justify-content: center; */
   background-color: #d0f4da;
   width: 100%;
   min-height: 100vh;

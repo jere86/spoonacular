@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from "uuid";
+import { v4 } from "uuid";
 
 import styles from "./Instructions.module.scss";
 
@@ -19,7 +19,7 @@ const Instructions = ({ instructions }) => {
                   <ul>
                     {ingredients.map(({ name, image }) => {
                       return (
-                        <li key={uuidv4()}>
+                        <li key={v4()}>
                           <p>{name}</p>
                           <img
                             src={`https://spoonacular.com/cdn/ingredients_100x100/${image}`}
@@ -37,7 +37,7 @@ const Instructions = ({ instructions }) => {
                   <ul>
                     {equipment.map(({ name, image }) => {
                       return (
-                        <li key={uuidv4()}>
+                        <li key={v4()}>
                           <p>{name}</p>
                           <img
                             src={`https://spoonacular.com/cdn/equipment_100x100/${image}`}

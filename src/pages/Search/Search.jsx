@@ -118,16 +118,18 @@ const Search = () => {
       </button>
       {recipesData && (
         <p>
-          Number of recipes found:{" "}
-          {recipesData ? `${recipesData.totalResults}` : "0"}.
+          Number of recipes found:
+          {recipesData ? ` ${recipesData.totalResults}` : " 0"}.
         </p>
       )}
-      <Filter
-        filterName="Show"
-        onChange={handleShowPerSearch}
-        options={showOptions}
-        emptySpot={false}
-      />
+      {recipesData && (
+        <Filter
+          filterName="Show"
+          onChange={handleShowPerSearch}
+          options={showOptions}
+          emptySpot={false}
+        />
+      )}
       {recipesData && <RecipesList recipesData={recipesData} />}
     </div>
   );

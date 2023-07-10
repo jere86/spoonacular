@@ -30,3 +30,16 @@ export const getRequest = async (url, queryParams) => {
     console.error(err.toJSON());
   }
 };
+
+export const postRequest = async (url, data) => {
+  try {
+    const response = await axios.post(
+      `${SPOONACULAR_API}${url}?apiKey=${API_KEY}`,
+      data
+    );
+
+    return response.data;
+  } catch (err) {
+    console.error(err.toJSON());
+  }
+};
