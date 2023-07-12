@@ -45,7 +45,7 @@ const Navbar = () => {
         </li>
       </ul>
       <div>
-        <p>Welcome, {username}!</p>
+        <p>Welcome, {username.toUpperCase()}!</p>
         <button onClick={handleLogout}>Logout</button>
       </div>
     </nav>

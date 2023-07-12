@@ -1,4 +1,8 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
+import {
+  getUsersFromLocalStorage,
+  saveUsersToLocalStorage,
+} from "../helpers/users";
 
 export const AppContext = createContext();
 
@@ -9,23 +13,21 @@ export function AppContextProvider(Component) {
     const [loggedIn, setLoggedIn] = useState(false);
     const [recipe, setRecipe] = useState();
     const [recipesData, setRecipesData] = useState(null);
-    const [favorites, setFavorites] = useState([]);
-
-    const getUsersFromLocalStorage = () => {
-      const storedUsers = localStorage.getItem("users");
-      return storedUsers ? JSON.parse(storedUsers) : [];
-    };
-
     const [users, setUsers] = useState(getUsersFromLocalStorage());
-    console.log(users);
+
+    useEffect(() => {
+      saveUsersToLocalStorage(users);
+    }, [users]);
+
+    const currentUser = loggedIn
+      ? users.find((user) => user.username === username)
+      : null;
 
     return (
       <AppContext.Provider
         value={{
           recipe,
           setRecipe,
-          favorites,
-          setFavorites,
           recipesData,
           setRecipesData,
           users,
@@ -36,6 +38,7 @@ export function AppContextProvider(Component) {
           setEmail,
           loggedIn,
           setLoggedIn,
+          currentUser,
         }}
       >
         <Component {...props} />

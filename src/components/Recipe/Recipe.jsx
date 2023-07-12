@@ -6,10 +6,9 @@ import { AppContext } from "../../context/appContext";
 import styles from "./Recipe.module.scss";
 
 const Recipe = ({ recipe }) => {
-  const { favorites, setFavorites, setRecipe, users, username } =
-    useContext(AppContext);
+  const { currentUser, setRecipe, username, setUsers } = useContext(AppContext);
   const [isToggled, setIsToggled] = useState(
-    favorites.includes(recipe) ? true : false
+    currentUser.favorites.includes(recipe) ? true : false
   );
   const navigate = useNavigate();
 
@@ -25,10 +24,36 @@ const Recipe = ({ recipe }) => {
   const onToggle = () => {
     setIsToggled(!isToggled);
     !isToggled
-      ? setFavorites([...favorites, recipe])
-      : setFavorites(favorites.filter((favorite) => favorite.id !== recipe.id));
-    const currentUser = users.filter((user) => user.username === username);
-    currentUser.favorites = favorites;
+      ? setUsers((prevUsers) => [
+          ...prevUsers.map((user) => {
+            if (user.username === username) {
+              return {
+                ...user,
+                favorites: [...user.favorites, recipe],
+              };
+            } else {
+              return {
+                ...user,
+              };
+            }
+          }),
+        ])
+      : setUsers((prevUsers) => [
+          ...prevUsers.map((user) => {
+            if (user.username === username) {
+              return {
+                ...user,
+                favorites: user.favorites.filter(
+                  (favorite) => favorite.id !== recipe.id
+                ),
+              };
+            } else {
+              return {
+                ...user,
+              };
+            }
+          }),
+        ]);
   };
 
   return (

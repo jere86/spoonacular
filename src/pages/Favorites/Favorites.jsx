@@ -6,10 +6,13 @@ import RecipesList from "../../components/RecipesList/RecipesList";
 import styles from "./Favorites.module.scss";
 
 const Favorites = () => {
-  const { favorites } = useContext(AppContext);
+  const { currentUser } = useContext(AppContext);
+
   return (
     <div className={styles.favorite}>
-      <RecipesList recipesData={{ results: favorites }} />
+      {currentUser.favorites && (
+        <RecipesList recipesData={{ results: currentUser.favorites }} />
+      )}
     </div>
   );
 };

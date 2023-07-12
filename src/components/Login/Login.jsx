@@ -25,12 +25,6 @@ const Login = () => {
     }
   };
 
-  // const handleLogout = () => {
-  //   setLoggedIn(false);
-
-  //   setUsername("");
-  //   setEmail("");
-  // };
   return (
     <div className={styles.login}>
       <h2>LOG IN</h2>
@@ -57,6 +51,9 @@ const Login = () => {
         />
         <button type="submit">LOG IN</button>
       </form>
+      <div>
+        Need an account?<a href="/register">SIGN UP</a>
+      </div>
     </div>
   );
 };

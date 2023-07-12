@@ -54,20 +54,4 @@
       }
     }
   }
-
-  div {
-    display: inline-flex;
-    flex-direction: column;
-    align-items: center;
-
-    a {
-      padding: 0.5rem 0 0;
-      color: #155527;
-      font-weight: bold;
-
-      &:hover {
-        color: white;
-      }
-    }
-  }
 }

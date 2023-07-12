@@ -54,4 +54,22 @@
       }
     }
   }
+
+  div {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+
+    a {
+      margin-left: 0.25rem;
+      padding: 0;
+      color: #155527;
+      font-weight: bold;
+
+      &:hover {
+        color: white;
+        text-decoration: underline;
+      }
+    }
+  }
 }

@@ -14,14 +14,9 @@ const Signup = () => {
     email,
     setEmail,
     setLoggedIn,
-    favorites,
   } = useContext(AppContext);
 
   const navigate = useNavigate();
-
-  const saveUsersToLocalStorage = (users) => {
-    localStorage.setItem("users", JSON.stringify(users));
-  };
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -42,16 +37,11 @@ const Signup = () => {
         username,
         email,
         userData,
-        favorites,
+        favorites: [],
       };
 
-      const updatedUsers = [...users, newUser];
-      setUsers(updatedUsers);
-
-      saveUsersToLocalStorage(updatedUsers);
-
+      setUsers([...users, newUser]);
       setLoggedIn(true);
-
       navigate("/home");
     }
   };
@@ -82,9 +72,6 @@ const Signup = () => {
         />
         <button type="submit">SIGN UP</button>
       </form>
-      <div>
-        Already have an account?<a href="/login">LOG IN</a>
-      </div>
     </div>
   );
 };

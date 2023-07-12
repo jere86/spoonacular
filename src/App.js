@@ -1,5 +1,4 @@
 import { Route, Routes } from "react-router-dom";
-import { v4 } from "uuid";
 
 import Home from "./pages/Home/Home";
 import Search from "./pages/Search/Search";
@@ -12,23 +11,43 @@ import Signup from "./components/Signup/Signup";
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<Signup />} />
-      <Route path="/login" element={<Login />} />
+      <Route path="/" element={<Login />} />
+      <Route path="/register" element={<Signup />} />
       <Route
         path="/home"
-        element={[<Navbar key={v4()} />, <Home key={v4()} />]}
+        element={
+          <>
+            <Navbar />
+            <Home />
+          </>
+        }
       />
       <Route
         path="/search"
-        element={[<Navbar key={v4()} />, <Search key={v4()} />]}
+        element={
+          <>
+            <Navbar />
+            <Search />
+          </>
+        }
       />
       <Route
         path="/info/:id"
-        element={[<Navbar key={v4()} />, <Info key={v4()} />]}
+        element={
+          <>
+            <Navbar />
+            <Info />
+          </>
+        }
       />
       <Route
         path="/favorites"
-        element={[<Navbar key={v4()} />, <Favorites key={v4()} />]}
+        element={
+          <>
+            <Navbar />
+            <Favorites />
+          </>
+        }
       />
     </Routes>
   );

@@ -17,11 +17,11 @@ import Filter from "../../components/Filter/Filter";
 
 const Search = () => {
   const { recipesData, setRecipesData } = useContext(AppContext);
-  const [ingredients, setIngredients] = useState(null);
-  const [cuisine, setCuisine] = useState(null);
-  const [mealtype, setMealType] = useState(null);
-  const [diet, setDiet] = useState(null);
-  const [intolerances, setIntolerances] = useState(null);
+  const [ingredients, setIngredients] = useState();
+  const [cuisine, setCuisine] = useState();
+  const [mealtype, setMealType] = useState();
+  const [diet, setDiet] = useState();
+  const [intolerances, setIntolerances] = useState();
   const [number, setNumber] = useState(4);
 
   const handleIngredients = (e) => {
