@@ -7,6 +7,7 @@ import Favorites from "./pages/Favorites/Favorites";
 import Login from "./components/Login/Login";
 import Navbar from "./components/Navbar/Navbar";
 import Signup from "./components/Signup/Signup";
+import MealPlanner from "./pages/MealPlanner/MealPlanner";
 
 export default function App() {
   return (
@@ -46,6 +47,15 @@ export default function App() {
           <>
             <Navbar />
             <Favorites />
+          </>
+        }
+      />
+      <Route
+        path="/mealplanner"
+        element={
+          <>
+            <Navbar />
+            <MealPlanner />
           </>
         }
       />

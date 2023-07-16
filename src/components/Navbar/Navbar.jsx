@@ -29,6 +29,14 @@ const Navbar = () => {
       <ul>
         <li key={v4()}>
           <NavLink
+            to="/mealplanner"
+            className={({ isActive }) => (isActive ? styles.active : "")}
+          >
+            MEAL PLANNER
+          </NavLink>
+        </li>
+        <li key={v4()}>
+          <NavLink
             to="/search"
             className={({ isActive }) => (isActive ? styles.active : "")}
           >

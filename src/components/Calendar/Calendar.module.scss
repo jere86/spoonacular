@@ -1,0 +1,52 @@
+.calendar {
+  width: 100%;
+
+  .weekNav {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-between;
+    height: 70vh;
+
+    li {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: calc(100% / 7);
+
+      div {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .dayName,
+      .formattedDate {
+        height: 10%;
+      }
+
+      .breakfast,
+      .lunch,
+      .dinner {
+        height: 30%;
+        // border: 1px solid black;
+
+        button {
+          width: 1.5rem;
+          height: 1.5rem;
+          border-radius: 50%;
+          border: none;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 1.5rem;
+        }
+      }
+    }
+  }
+}
