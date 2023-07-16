@@ -5,7 +5,7 @@ import styles from "./MealPlanner.module.scss";
 const MealPlanner = () => {
   return (
     <div className={styles.mealplanner}>
-      <h1>Generate a meal plan</h1>
+      {/* <h1>Generate a meal plan</h1> */}
       <Calendar />
     </div>
   );

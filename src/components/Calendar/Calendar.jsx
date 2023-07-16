@@ -18,21 +18,13 @@ const Calendar = () => {
   );
 
   const handleButtonClick = (dateKey, buttonIndex) => {
-    const correctDate = new Date(dateKey);
-    correctDate.setDate(correctDate.getDate() + 1);
-    const correctDateKey = correctDate.toISOString().split("T")[0];
-
-    const prevButtonStates = buttonStates[correctDateKey] || [
-      false,
-      false,
-      false,
-    ];
+    const prevButtonStates = buttonStates[dateKey] || [false, false, false];
     const newButtonStates = [...prevButtonStates];
     newButtonStates[buttonIndex] = !prevButtonStates[buttonIndex];
 
     setButtonStates((prevState) => ({
       ...prevState,
-      [correctDateKey]: newButtonStates,
+      [dateKey]: newButtonStates,
     }));
   };
 
@@ -68,9 +60,8 @@ const Calendar = () => {
       const dayName = currentDateIterator.toLocaleDateString("en-US", {
         weekday: "long",
       });
-      const formattedDate = currentDateIterator.toLocaleDateString("en-US", {
+      const dayNumber = currentDateIterator.toLocaleDateString("en-US", {
         day: "numeric",
-        month: "short",
       });
 
       const handleClick = (btnDateKey, buttonIndex) => {
@@ -80,7 +71,7 @@ const Calendar = () => {
       days.push(
         <li key={currentDateIterator.getTime()}>
           <div className={styles.dayName}>{dayName}</div>
-          <div className={styles.formattedDate}>{formattedDate}</div>
+          <div className={styles.dayNumber}>{dayNumber}</div>
           <div className={styles.breakfast}>
             <button
               className={buttonStatesForDate[0] ? styles.active : ""}
@@ -122,6 +113,29 @@ const Calendar = () => {
     <div className={styles.calendar}>
       <div className={styles.weekNav}>
         <button onClick={handlePreviousWeek}>Previous Week</button>
+        <div className={styles.monthName}>
+          {currentWeekStartDate.toLocaleDateString("en-US", {
+            month: "long",
+          })}
+          {currentWeekStartDate.getMonth() !==
+          new Date(
+            currentWeekStartDate.getFullYear(),
+            currentWeekStartDate.getMonth(),
+            currentWeekStartDate.getDate() + 6
+          ).getMonth() ? (
+            <span>
+              {" "}
+              /{" "}
+              {new Date(
+                currentWeekStartDate.getFullYear(),
+                currentWeekStartDate.getMonth(),
+                currentWeekStartDate.getDate() + 6
+              ).toLocaleDateString("en-US", {
+                month: "long",
+              })}
+            </span>
+          ) : null}
+        </div>
         <button onClick={handleNextWeek}>Next Week</button>
       </div>
       {renderCalendar()}

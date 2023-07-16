@@ -4,6 +4,17 @@
   .weekNav {
     display: flex;
     justify-content: space-between;
+    align-items: flex-end;
+
+    .monthName {
+      font-size: 2.5rem;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+
+    button {
+      height: max-content;
+    }
   }
 
   ul {
@@ -11,6 +22,8 @@
     display: flex;
     justify-content: space-between;
     height: 70vh;
+    margin-top: 1rem;
+    // border: 0.25rem solid #29a64d;
 
     li {
       display: flex;
@@ -25,26 +38,46 @@
         align-items: center;
       }
 
-      .dayName,
-      .formattedDate {
+      .dayName {
         height: 10%;
+        font-size: 1.5rem;
+        background-color: #29a64d;
+        color: white;
+        padding: 1rem 0 0.5rem;
+      }
+
+      .dayNumber {
+        // height: 10%;
+        font-size: 3rem;
+        font-weight: bold;
+        padding: 0.5rem 0;
+        background-color: white;
+        border: 0.75rem solid #29a64d;
+        margin-bottom: 0.5rem;
       }
 
       .breakfast,
       .lunch,
       .dinner {
         height: 30%;
-        // border: 1px solid black;
+        // border: 0.25rem solid white;
 
         button {
           width: 1.5rem;
           height: 1.5rem;
           border-radius: 50%;
           border: none;
+          outline: 1px dashed black;
           display: flex;
           justify-content: center;
           align-items: center;
           font-size: 1.5rem;
+
+          &:hover {
+            cursor: pointer;
+            outline: 1px solid black;
+            transform: scale(1.2);
+          }
         }
       }
     }
