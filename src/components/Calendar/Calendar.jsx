@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import styles from "./Calendar.module.scss";
 
 const Calendar = () => {
   const [buttonStates, setButtonStates] = useState({});
+  const [buttonIndex, setButtonIndex] = useState();
 
   const getStartOfWeek = (date) => {
     const newDate = new Date(date);
@@ -17,15 +18,31 @@ const Calendar = () => {
     getStartOfWeek(new Date())
   );
 
-  const handleButtonClick = (dateKey, buttonIndex) => {
-    const prevButtonStates = buttonStates[dateKey] || [false, false, false];
-    const newButtonStates = [...prevButtonStates];
-    newButtonStates[buttonIndex] = !prevButtonStates[buttonIndex];
-
-    setButtonStates((prevState) => ({
-      ...prevState,
-      [dateKey]: newButtonStates,
-    }));
+  const handleButtonClick = (dateKey, buttonIndex, isInAddCard) => {
+    setButtonIndex(buttonIndex);
+    if (isInAddCard) {
+      setButtonStates((prevState) => {
+        const newButtonStates = { ...prevState };
+        const prevButtonStates = newButtonStates[dateKey] || [
+          false,
+          false,
+          false,
+        ];
+        prevButtonStates[buttonIndex] = false;
+        newButtonStates[dateKey] = prevButtonStates;
+        return newButtonStates;
+      });
+    } else {
+      setButtonStates((prevState) => {
+        const prevButtonStates = prevState[dateKey] || [false, false, false];
+        const newButtonStates = [...prevButtonStates];
+        newButtonStates[buttonIndex] = !prevButtonStates[buttonIndex];
+        return {
+          ...prevState,
+          [dateKey]: newButtonStates,
+        };
+      });
+    }
   };
 
   const handlePreviousWeek = () => {
@@ -45,10 +62,10 @@ const Calendar = () => {
   };
 
   const renderCalendar = () => {
-    const days = [];
-    let currentDateIterator = new Date(currentWeekStartDate);
+    const days = Array.from({ length: 7 }, (_, index) => {
+      const currentDateIterator = new Date(currentWeekStartDate);
+      currentDateIterator.setDate(currentDateIterator.getDate() + index);
 
-    for (let i = 0; i < 7; i++) {
       const currentDay = new Date(currentDateIterator);
       const dateKey = currentDay.toISOString().split("T")[0];
       const buttonStatesForDate = buttonStates[dateKey] || [
@@ -64,43 +81,53 @@ const Calendar = () => {
         day: "numeric",
       });
 
-      const handleClick = (btnDateKey, buttonIndex) => {
-        handleButtonClick(btnDateKey, buttonIndex);
-      };
+      const showNewDiv = buttonStatesForDate.includes(true);
 
-      days.push(
+      return (
         <li key={currentDateIterator.getTime()}>
-          <div className={styles.dayName}>{dayName}</div>
+          <div className={styles.dayName}>
+            {dayName}
+            <span className={styles.line}></span>
+          </div>
           <div className={styles.dayNumber}>{dayNumber}</div>
           <div className={styles.breakfast}>
             <button
-              className={buttonStatesForDate[0] ? styles.active : ""}
-              onClick={() => handleClick(dateKey, 0)}
+              // className={!buttonStatesForDate[0] ? styles.active : ""}
+              onClick={() => handleButtonClick(dateKey, 0)}
             >
               +
             </button>
           </div>
           <div className={styles.lunch}>
             <button
-              className={buttonStatesForDate[1] ? styles.active : ""}
-              onClick={() => handleClick(dateKey, 1)}
+              // className={!buttonStatesForDate[1] ? styles.active : ""}
+              onClick={() => handleButtonClick(dateKey, 1)}
             >
               +
             </button>
           </div>
           <div className={styles.dinner}>
             <button
-              className={buttonStatesForDate[2] ? styles.active : ""}
-              onClick={() => handleClick(dateKey, 2)}
+              // className={!buttonStatesForDate[2] ? styles.active : ""}
+              onClick={() => handleButtonClick(dateKey, 2)}
             >
               +
             </button>
           </div>
+          {showNewDiv && (
+            <div className={styles.newDiv}>
+              <div className={styles.addCard}>
+                <button
+                  onClick={() => handleButtonClick(dateKey, buttonIndex, true)}
+                >
+                  X
+                </button>
+              </div>
+            </div>
+          )}
         </li>
       );
-
-      currentDateIterator.setDate(currentDateIterator.getDate() + 1);
-    }
+    });
 
     return <ul>{days}</ul>;
   };
