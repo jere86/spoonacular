@@ -108,9 +108,69 @@
         align-items: center;
 
         .addCard {
-          width: 50%;
-          height: 50%;
+          position: relative;
+          width: 75%;
+          height: 75%;
+          padding: 1rem;
           background-color: white;
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+
+          p {
+            padding-bottom: 1rem;
+
+            span {
+              font-size: 2rem;
+              font-weight: bold;
+            }
+          }
+
+          input {
+            padding: 0.25rem;
+            border: 2px solid black;
+          }
+
+          .recipesMP {
+            height: min-content;
+            display: flex;
+
+            .recipeMP {
+              display: flex;
+              flex-direction: column;
+              width: 30%;
+
+              .imageMP {
+                width: 100%;
+                overflow: hidden;
+
+                img {
+                  width: 125%;
+                }
+              }
+            }
+          }
+
+          .exitbtn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 50%;
+            border: none;
+            outline: 1px dashed black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            &:hover {
+              cursor: pointer;
+              outline: 1px solid black;
+              transform: scale(1.2);
+              font-weight: bold;
+            }
+          }
         }
       }
     }
