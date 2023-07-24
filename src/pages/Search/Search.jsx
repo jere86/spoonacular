@@ -47,22 +47,12 @@ const Search = () => {
   const handleShowPerSearch = async (e) => {
     setNumber(e.target.value);
 
-    const recipes = await getRequest("recipes/complexSearch", {
-      number: e.target.value,
-      includeIngredients: ingredients,
-      instructionsRequired: true,
-      cuisine: cuisine,
-      type: mealtype,
-      diet: diet,
-      intolerances: intolerances,
-    });
-
-    setRecipesData(recipes);
+    getRecipesData(e.target.value)
   };
 
-  const getRecipesData = async () => {
+  const getRecipesData = async (showPerSearch) => {
     const recipes = await getRequest("recipes/complexSearch", {
-      number: number,
+      number: showPerSearch ?? number,
       includeIngredients: ingredients,
       instructionsRequired: true,
       cuisine: cuisine,
@@ -113,7 +103,7 @@ const Search = () => {
           emptySpot={true}
         />
       </div>
-      <button onClick={getRecipesData} className={styles.getRecipes}>
+      <button onClick={() => getRecipesData()} className={styles.getRecipes}>
         Get Recipes
       </button>
       {recipesData && (
