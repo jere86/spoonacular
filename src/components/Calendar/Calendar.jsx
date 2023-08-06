@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 
 import styles from "./Calendar.module.scss";
-import { addMealRequest, getRequest } from "../../helpers/http";
+import { addMealRequest, getRequest, getWMPRequest } from "../../helpers/http";
 import { AppContext } from "../../context/appContext";
 
 import { v4 } from "uuid";
@@ -12,8 +12,7 @@ const Calendar = () => {
   const [buttonIndex, setButtonIndex] = useState();
   const [searchValue, setSearchValue] = useState("");
   const [recipeList, setRecipeList] = useState();
-
-  // console.log(currentUser);
+  const [weekMPData, setWeekMPData] = useState([]);
 
   useEffect(() => {
     if (searchValue === "") {
@@ -33,11 +32,27 @@ const Calendar = () => {
     getStartOfWeek(new Date())
   );
 
+  const getWeekMealPlanData = async () => {
+    const weekMealPlanData = await getWMPRequest(
+      `mealplanner/${currentUser.userData.username}/week/${
+        new Date(currentWeekStartDate).toISOString().split("T")[0]
+      }?hash=${currentUser.userData.hash}`
+    );
+    setWeekMPData(weekMealPlanData.days);
+  };
+
+  useEffect(() => {
+    getWeekMealPlanData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentWeekStartDate]);
+
   const handleButtonClick = (dateKey, buttonIndex, isInAddCard) => {
     setButtonIndex(buttonIndex);
     if (isInAddCard) {
       setRecipeList();
       setSearchValue("");
+      getWeekMealPlanData();
+
       setButtonStates((prevState) => {
         const newButtonStates = { ...prevState };
         const prevButtonStates = newButtonStates[dateKey] || [
@@ -88,6 +103,8 @@ const Calendar = () => {
     return number + suffix;
   };
 
+  const [showFavorites, setShowFavorites] = useState(false);
+
   const renderCalendar = () => {
     const days = Array.from({ length: 7 }, (_, index) => {
       const currentDateIterator = new Date(currentWeekStartDate);
@@ -127,9 +144,9 @@ const Calendar = () => {
 
       const addToMealPlan = (e, recipe) => {
         e.preventDefault();
-        const timestamp = new Date(dateKey).getTime() / 1000;
+        setShowFavorites(false);
 
-        handleButtonClick(dateKey, buttonIndex, true);
+        const timestamp = new Date(dateKey).getTime() / 1000;
         addMealRequest(
           `mealplanner/${currentUser.userData.username}/items/?hash=${currentUser.userData.hash}`,
           {
@@ -145,8 +162,11 @@ const Calendar = () => {
             },
           }
         );
-        // console.log(recipe);
       };
+
+      const daydata = weekMPData.find(
+        (day) => day.date === new Date(dateKey).getTime() / 1000
+      );
 
       return (
         <li key={currentDateIterator.getTime()}>
@@ -156,6 +176,12 @@ const Calendar = () => {
           </div>
           <div className={styles.dayNumber}>{dayNumber}</div>
           <div className={styles.breakfast}>
+            {daydata !== undefined &&
+              daydata.items
+                .filter((item) => item.slot === 1)
+                .map((day) => {
+                  return <p key={v4()}>{day.value.title}</p>;
+                })}
             <button
               // className={!buttonStatesForDate[0] ? styles.active : ""}
               onClick={() => handleButtonClick(dateKey, 0)}
@@ -164,6 +190,12 @@ const Calendar = () => {
             </button>
           </div>
           <div className={styles.lunch}>
+            {daydata !== undefined &&
+              daydata.items
+                .filter((item) => item.slot === 2)
+                .map((day) => {
+                  return <p key={v4()}>{day.value.title}</p>;
+                })}
             <button
               // className={!buttonStatesForDate[1] ? styles.active : ""}
               onClick={() => handleButtonClick(dateKey, 1)}
@@ -172,6 +204,12 @@ const Calendar = () => {
             </button>
           </div>
           <div className={styles.dinner}>
+            {daydata !== undefined &&
+              daydata.items
+                .filter((item) => item.slot === 3)
+                .map((day) => {
+                  return <p key={v4()}>{day.value.title}</p>;
+                })}
             <button
               // className={!buttonStatesForDate[2] ? styles.active : ""}
               onClick={() => handleButtonClick(dateKey, 2)}
@@ -184,7 +222,10 @@ const Calendar = () => {
               <div className={styles.addCard}>
                 <button
                   className={styles.exitbtn}
-                  onClick={() => handleButtonClick(dateKey, buttonIndex, true)}
+                  onClick={() => {
+                    handleButtonClick(dateKey, buttonIndex, true);
+                    setShowFavorites(false);
+                  }}
                 >
                   X
                 </button>
@@ -249,6 +290,37 @@ const Calendar = () => {
                   </div>
                 )}
                 <hr />
+                <button
+                  className={styles.addFromFav}
+                  onClick={() => {
+                    setShowFavorites(!showFavorites);
+                  }}
+                >
+                  add from Favorites
+                </button>
+                {showFavorites && currentUser.favorites && (
+                  <div className={styles.recipesMP}>
+                    {currentUser.favorites.map((recipe) => {
+                      return (
+                        <div className={styles.recipeMP} key={v4()}>
+                          <div className={styles.imageMP}>
+                            <img
+                              src={recipe.image}
+                              alt="meal"
+                              className={styles.recipeImageMP}
+                            />
+                            <button onClick={(e) => addToMealPlan(e, recipe)}>
+                              <svg viewBox="0 0 20 20">
+                                <path d="M10 3a7 7 0 100 14 7 7 0 000-14zm-9 7a9 9 0 1118 0 9 9 0 01-18 0zm14 .069a1 1 0 01-1 1h-2.931V14a1 1 0 11-2 0v-2.931H6a1 1 0 110-2h3.069V6a1 1 0 112 0v3.069H14a1 1 0 011 1z" />
+                              </svg>
+                            </button>
+                          </div>
+                          <p>{recipe.title}</p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -258,6 +330,8 @@ const Calendar = () => {
 
     return <ul>{days}</ul>;
   };
+
+  // console.log(weekMPData);
 
   // useEffect(() => {
   //   console.log(buttonStates);

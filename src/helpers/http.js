@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const SPOONACULAR_API = "https://api.spoonacular.com/";
-const API_KEY = "beefcc8fafcb437d9863fe9746cb75b2";
+const API_KEY = "9bd11a9d9e5a4727b2d9fed3489fd620";
 
 // e1f556e241884f5e8493a5f17cb629bd
 // 9bd11a9d9e5a4727b2d9fed3489fd620
@@ -31,10 +31,22 @@ export const getRequest = async (url, queryParams) => {
   }
 };
 
+export const getWMPRequest = async (url) => {
+  try {
+    const response = await axios.get(
+      `${SPOONACULAR_API}${url}&apiKey=${API_KEY}`
+    );
+
+    return response.data;
+  } catch (err) {
+    console.error(err.toJSON());
+  }
+};
+
 export const postRequest = async (url, data) => {
   try {
     const response = await axios.post(
-      `${SPOONACULAR_API}${url}?apiKey=${API_KEY}`,
+      `${SPOONACULAR_API}${url}&apiKey=${API_KEY}`,
       data
     );
 
