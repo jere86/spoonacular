@@ -6,14 +6,13 @@ import { AppContext } from "../../context/appContext";
 import styles from "./Recipe.module.scss";
 
 const Recipe = ({ recipe }) => {
-  const { currentUser, setRecipe, username, setUsers } = useContext(AppContext);
+  const { currentUser, username, setUsers } = useContext(AppContext);
   const [isToggled, setIsToggled] = useState(
     currentUser.favorites.includes(recipe) ? true : false
   );
   const navigate = useNavigate();
 
   const showInfo = () => {
-    setRecipe(recipe);
     navigate(`/info/${recipe.id}`);
   };
 

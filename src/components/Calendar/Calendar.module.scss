@@ -8,6 +8,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 0 1rem;
 
     .monthName {
       display: flex;
@@ -17,7 +18,18 @@
     }
 
     button {
-      height: max-content;
+      height: 2rem;
+      background-color: transparent;
+      border: none;
+
+      svg {
+        height: 2rem;
+        width: 2rem;
+      }
+
+      &:hover {
+        cursor: pointer;
+      }
     }
   }
 
@@ -74,16 +86,15 @@
       .dinner {
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: flex-start;
         height: 25%;
-        border: 0.25rem solid white;
+        border: 0.25rem double #29a64d;
+        padding: 0.25rem;
         text-wrap: balance;
+        overflow-y: scroll;
+        background-color: transparent;
 
-        p {
-          text-align: center;
-        }
-
-        button {
+        .addButton {
           width: 1.5rem;
           height: 1.5rem;
           border-radius: 50%;
@@ -93,13 +104,88 @@
           justify-content: center;
           align-items: center;
           font-size: 1.5rem;
+          margin-top: auto;
 
           &:hover {
             cursor: pointer;
             outline: 1px solid black;
-            transform: scale(1.2);
+            // transform: scale(1.2);
           }
         }
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
+
+        .mealItem {
+          position: relative;
+          text-align: center;
+          color: #000000;
+          min-height: 75%;
+          margin-bottom: 0.5rem;
+          background-position: center;
+          color: white;
+          border-radius: 1rem 0 1rem;
+
+          p {
+            width: 100%;
+            background-color: #29a64c4d;
+            user-select: none;
+            padding: 0 0.25rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin-top: 1.25rem;
+          }
+
+          .deleteFromMP {
+            display: none;
+            position: absolute;
+            top: 0.25rem;
+            right: 0.25rem;
+            height: 1.5rem;
+            width: 1.5rem;
+            border: none;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.8);
+
+            svg {
+              fill: red;
+            }
+
+            &:hover {
+              cursor: pointer;
+            }
+          }
+
+          .recipeInfo {
+            display: none;
+            position: absolute;
+            top: 0.25rem;
+            right: 2rem;
+            height: 1.5rem;
+            width: 1.5rem;
+            border: none;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.8);
+
+            svg {
+              fill: blue;
+            }
+
+            &:hover {
+              cursor: pointer;
+            }
+          }
+
+          &:hover {
+            button {
+              display: block;
+            }
+          }
+        }
+
+        // &:hover {
+        //   overflow-y: visible;
+        // }
       }
 
       .newDiv {
@@ -119,10 +205,10 @@
 
         .addCard {
           width: 75%;
-          max-height: 75vh;
+          max-height: 90vh;
           // height: max-content;
           // height: 25%;
-          padding: 1rem;
+          padding: 1rem 0.5rem;
           background-color: white;
           display: flex;
           flex-direction: column;
@@ -141,131 +227,174 @@
             }
           }
 
-          form {
-            display: flex;
-            width: 30%;
-            // height: 2rem;
-            justify-content: space-between;
-            align-items: center;
+          .searchbar {
+            width: 50%;
             border: 2px solid black;
             border-radius: 0.5rem 0 0.5rem;
             padding: 0.25rem 0.5rem;
-            // margin-bottom: 0.5rem;
-            transition: all 0.75s ease-in-out;
 
-            input {
-              // height: 2rem;
-              line-height: 1rem;
+            form {
+              display: flex;
               width: 100%;
-              padding: 0.25rem;
-              border: none;
-              outline: none;
-              text-align: center;
+              // height: 2rem;
+              justify-content: space-between;
+              align-items: center;
+              border-right: none;
+              // margin-bottom: 0.5rem;
+              transition: all 0.75s ease-in-out;
+
+              input {
+                // height: 2rem;
+                line-height: 1rem;
+                width: 100%;
+                // padding: 0.25rem;
+                border: none;
+                outline: none;
+                text-align: center;
+              }
+
+              button {
+                width: 1.5rem;
+                height: 1.5rem;
+                background-color: transparent;
+                border: none;
+
+                &:hover {
+                  cursor: pointer;
+                }
+
+                svg {
+                  width: 100%;
+                  height: 100%;
+                  fill: #000000;
+                  background-color: transparent;
+                }
+              }
             }
 
-            button {
+            .addFromFav {
               width: 1.5rem;
               height: 1.5rem;
               background-color: transparent;
               border: none;
+              margin: -2px 0 0 4px;
 
               &:hover {
                 cursor: pointer;
               }
 
               svg {
-                width: 100%;
-                height: 100%;
-                fill: #000000;
-                background-color: transparent;
+                width: 1.5rem;
+                height: 1.5rem;
+                fill: gold;
+                stroke: black;
+                stroke-width: 5px;
               }
-            }
-
-            &:focus-within {
-              width: 75%;
             }
           }
 
           .recipesMP {
-            height: 75%;
             display: flex;
-            flex-wrap: wrap;
-            justify-content: space-evenly;
-            align-items: flex-start;
-            margin-top: 0.5rem;
-            transition: all 0.5s ease-in-out;
+            flex-direction: row;
 
-            .recipeMP {
-              height: min-content;
-              width: 10rem;
-              display: flex;
-              flex-direction: column;
-              justify-content: space-between;
-              padding-top: 0.5rem;
+            button {
+              background-color: transparent;
+              border: none;
 
-              p {
-                text-align: center;
-                text-wrap: balance;
-                margin: 0;
+              svg {
+                fill: #000000;
+                width: 1.5rem;
               }
 
-              .imageMP {
-                position: relative;
-                width: 8rem;
-                height: 8rem;
-                overflow: hidden;
-                border: 0.25rem dashed #29a64d;
-                border-radius: 50%;
+              &:hover {
+                cursor: pointer;
+              }
 
-                img {
-                  transform: scale(0.65);
+              &:disabled {
+                svg {
+                  fill: rgb(160, 160, 160);
                 }
 
-                button {
-                  svg {
-                    display: none;
-                    position: absolute;
-                    top: 35%;
-                    left: 35%;
-                    width: 30%;
-                    height: 30%;
+                &:hover {
+                  cursor: auto;
+                }
+              }
+            }
 
-                    path {
-                      fill: rgba(255, 255, 255, 0.8);
+            .recipesListMP {
+              // height: 85%;
+              display: flex;
+              flex-wrap: wrap;
+              justify-content: space-evenly;
+              align-items: flex-start;
+              margin-top: 0.5rem;
+
+              .recipeMP {
+                // height: min-content;
+                width: 10rem;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                padding-top: 0.5rem;
+
+                p {
+                  text-align: center;
+                  text-wrap: balance;
+                  margin: 0;
+                }
+
+                .imageMP {
+                  position: relative;
+                  width: 8rem;
+                  height: 8rem;
+                  overflow: hidden;
+                  border: 0.25rem dashed #29a64d;
+                  border-radius: 50%;
+
+                  img {
+                    transform: scale(0.65);
+                  }
+
+                  button {
+                    svg {
+                      display: none;
+                      position: absolute;
+                      top: 35%;
+                      left: 35%;
+                      width: 30%;
+                      height: 30%;
+
+                      path {
+                        fill: rgba(255, 255, 255, 0.8);
+                      }
+                    }
+
+                    &:hover {
+                      cursor: pointer;
+
+                      svg {
+                        top: 30%;
+                        left: 30%;
+                        width: 40%;
+                        height: 40%;
+
+                        path {
+                          fill: #29a64d;
+                        }
+                      }
                     }
                   }
 
                   &:hover {
-                    cursor: pointer;
+                    border: 0.25rem solid #29a64d;
 
                     svg {
-                      top: 30%;
-                      left: 30%;
-                      width: 40%;
-                      height: 40%;
-
-                      path {
-                        fill: #29a64d;
-                      }
+                      display: block;
                     }
-                  }
-                }
-
-                &:hover {
-                  border: 0.25rem solid #29a64d;
-
-                  svg {
-                    display: block;
                   }
                 }
               }
             }
-          }
-
-          hr {
-            width: 100%;
-            border: 1px solid black;
-            margin: 1rem 0;
           }
 
           .exitbtn {
@@ -286,21 +415,6 @@
               outline: 1px solid black;
               transform: scale(1.2);
               font-weight: bold;
-            }
-          }
-
-          .addFromFav {
-            width: 30%;
-            line-height: 1.5rem;
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.5rem 0 0.5rem;
-            border: 2px solid black;
-            background-color: #238c41;
-            color: #d0f4da;
-
-            &:hover {
-              background-color: #2db353;
-              cursor: pointer;
             }
           }
 

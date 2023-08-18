@@ -11,7 +11,6 @@ export function AppContextProvider(Component) {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [loggedIn, setLoggedIn] = useState(false);
-    const [recipe, setRecipe] = useState();
     const [recipesData, setRecipesData] = useState(null);
     const [users, setUsers] = useState(getUsersFromLocalStorage());
 
@@ -26,8 +25,6 @@ export function AppContextProvider(Component) {
     return (
       <AppContext.Provider
         value={{
-          recipe,
-          setRecipe,
           recipesData,
           setRecipesData,
           users,

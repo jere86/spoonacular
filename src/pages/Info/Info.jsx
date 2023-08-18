@@ -1,5 +1,4 @@
-import { useEffect, useState, useContext } from "react";
-import { AppContext } from "../../context/appContext";
+import { useEffect, useState } from "react";
 
 import "./Nutrition.css";
 import styles from "./Info.module.scss";
@@ -9,36 +8,37 @@ import Ingredients from "../../components/Ingredients/Ingredients";
 import Nutrition from "../../components/Nutrition/Nutrition";
 
 import { getRequest } from "../../helpers/http";
-// import { useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const Info = () => {
-  // const { id } = useParams();
-  const { recipe } = useContext(AppContext);
-  const [analyzedInstructions, getAnalyzedInstructions] = useState([]);
+  const { id } = useParams();
+  const [analyzedInstructions, setAnalyzedInstructions] = useState([]);
   const [ingredients, setIngredients] = useState([]);
+  const [recipe, setRecipe] = useState();
 
   useEffect(() => {
     const getData = async () => {
-      const instructions = await getRequest(
-        `/recipes/${recipe.id}/analyzedInstructions`
-      );
-      getAnalyzedInstructions(instructions[0].steps);
+      const recipeInfo = await getRequest(`/recipes/${id}/information`);
+      setRecipe(recipeInfo);
 
-      const response = await getRequest(
-        `/recipes/${recipe.id}/ingredientWidget.json`
+      const instructions = await getRequest(
+        `/recipes/${id}/analyzedInstructions`
       );
+      setAnalyzedInstructions(instructions[0].steps);
+
+      const response = await getRequest(`/recipes/${id}/ingredientWidget.json`);
       setIngredients(response.ingredients);
     };
 
     getData();
-  }, [recipe.id]);
+  }, [id]);
 
   return (
     <div className={styles.info}>
-      <h1 className={styles.name}>{recipe.title}</h1>
-      <Ingredients ingredients={ingredients} recipe={recipe} />
+      <h1 className={styles.name}>{recipe !== undefined && recipe.title}</h1>
+      <Ingredients ingredients={ingredients} />
       <Instructions instructions={analyzedInstructions} />
-      <Nutrition recipe={recipe} />
+      {recipe !== undefined && <Nutrition recipe={recipe} />}
     </div>
   );
 };

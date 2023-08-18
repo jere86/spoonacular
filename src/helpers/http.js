@@ -59,3 +59,7 @@ export const postRequest = async (url, data) => {
 export const addMealRequest = (url, data) => {
   axios.post(`${SPOONACULAR_API}${url}&apiKey=${API_KEY}`, data);
 };
+
+export const deleteMealRequest = (url) => {
+  axios.delete(`${SPOONACULAR_API}${url}&apiKey=${API_KEY}`);
+};

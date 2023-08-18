@@ -21,6 +21,23 @@
   a:hover {
     background-color: #238c41;
   }
+
+  div {
+    display: flex;
+    flex-direction: column;
+
+    button {
+      background-color: #2db353;
+      padding: 0.13rem;
+      border: none;
+      border-radius: 0.5rem 0 0.5rem;
+      color: white;
+
+      &:hover {
+        background-color: #238c41;
+      }
+    }
+  }
 }
 
 a {
