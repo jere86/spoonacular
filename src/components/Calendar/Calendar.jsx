@@ -56,24 +56,6 @@ const Calendar = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentWeekStartDate]);
 
-  const handleButtonClick = (dateKey, buttonIndex, alsoDo) => {
-    setButtonIndex(buttonIndex);
-    if (alsoDo) {
-      setRecipeList();
-      setSearchValue("");
-      getWeekMealPlanData();
-    }
-    setButtonStates((prevState) => {
-      const prevButtonStates = prevState[dateKey] || [false, false, false];
-      const newButtonStates = [...prevButtonStates];
-      newButtonStates[buttonIndex] = !prevButtonStates[buttonIndex];
-      return {
-        ...prevState,
-        [dateKey]: newButtonStates,
-      };
-    });
-  };
-
   const handlePreviousWeek = () => {
     setCurrentWeekStartDate((prevStartDate) => {
       const prevWeekStartDate = new Date(prevStartDate);
@@ -90,6 +72,34 @@ const Calendar = () => {
     });
   };
 
+  const monthName = () => {
+    return (
+      <div className={styles.monthName}>
+        {currentWeekStartDate.toLocaleDateString("en-US", {
+          month: "long",
+        })}
+        {currentWeekStartDate.getMonth() !==
+        new Date(
+          currentWeekStartDate.getFullYear(),
+          currentWeekStartDate.getMonth(),
+          currentWeekStartDate.getDate() + 6
+        ).getMonth() ? (
+          <span>
+            {" "}
+            /{" "}
+            {new Date(
+              currentWeekStartDate.getFullYear(),
+              currentWeekStartDate.getMonth(),
+              currentWeekStartDate.getDate() + 6
+            ).toLocaleDateString("en-US", {
+              month: "long",
+            })}
+          </span>
+        ) : null}
+      </div>
+    );
+  };
+
   const getOrdinal = (number) => {
     const suffixes = ["th", "st", "nd", "rd"];
     const relevantDigits = number % 100;
@@ -98,6 +108,24 @@ const Calendar = () => {
       suffixes[relevantDigits] ||
       suffixes[0];
     return number + suffix;
+  };
+
+  const handleButtonClick = (dateKey, buttonIndex, alsoDo) => {
+    setButtonIndex(buttonIndex);
+    if (alsoDo) {
+      setRecipeList();
+      setSearchValue("");
+      getWeekMealPlanData();
+    }
+    setButtonStates((prevState) => {
+      const prevButtonStates = prevState[dateKey] || [false, false, false];
+      const newButtonStates = [...prevButtonStates];
+      newButtonStates[buttonIndex] = !prevButtonStates[buttonIndex];
+      return {
+        ...prevState,
+        [dateKey]: newButtonStates,
+      };
+    });
   };
 
   const renderCalendar = () => {
@@ -120,8 +148,8 @@ const Calendar = () => {
         day: "numeric",
       });
 
-      const handleInputChange = (event) => {
-        setSearchValue(event.target.value);
+      const handleInputChange = (e) => {
+        setSearchValue(e.target.value);
       };
 
       const handleSearch = async (e) => {
@@ -172,12 +200,21 @@ const Calendar = () => {
         getWeekMealPlanData();
       };
 
+      const clearMPDay = async (e, date) => {
+        e.preventDefault();
+
+        await deleteMealRequest(
+          `mealplanner/${currentUser.userData.username}/day/${date}?hash=${currentUser.userData.hash}`
+        );
+        getWeekMealPlanData();
+      };
+
       const daydata = weekMPData.find(
         (day) => day.date === new Date(dateKey).getTime() / 1000
       );
 
       const resultList = (recipes) => {
-        const itemsPerPage = 10;
+        const itemsPerPage = 12;
         const totalPages = Math.ceil(recipes.length / itemsPerPage);
 
         const startIndex = (currentPage - 1) * itemsPerPage;
@@ -238,157 +275,164 @@ const Calendar = () => {
       };
 
       return (
-        <li key={currentDateIterator.getTime()}>
-          <div className={styles.dayName}>
-            {dayName}
-            <span className={styles.line}></span>
-          </div>
-          <div className={styles.dayNumber}>{dayNumber}</div>
-          <div className={styles.breakfast}>
-            {daydata !== undefined &&
-              daydata.items
-                .filter((item) => item.slot === 1)
-                .map((day) => {
-                  return (
-                    <div
-                      className={styles.mealItem}
-                      style={{ backgroundImage: `url(${day.value.image})` }}
-                      key={v4()}
-                    >
-                      <button
-                        className={styles.recipeInfo}
-                        onClick={() => {
-                          navigate(`/info/${day.value.id}`);
-                        }}
+        <>
+          <li key={currentDateIterator.getTime()}>
+            <div className={styles.dayDate}>
+              <div className={styles.dayName}>{dayName}</div>
+              <div className={styles.dayNumber}>{dayNumber}</div>
+            </div>
+            <div className={styles.breakfast}>
+              {daydata !== undefined &&
+                daydata.items
+                  .filter((item) => item.slot === 1)
+                  .map((day) => {
+                    return (
+                      <div
+                        className={styles.mealItem}
+                        style={{ backgroundImage: `url(${day.value.image})` }}
+                        key={v4()}
                       >
-                        <svg viewBox="-1.55 -1.55 27.1 27.1">
-                          <path
-                            fillRule="evenodd"
-                            clipRule="evenodd"
-                            d="M1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12ZM10.25 11C10.25 10.4477 10.6977 10 11.25 10H12.75C13.3023 10 13.75 10.4477 13.75 11V18C13.75 18.5523 13.3023 19 12.75 19H11.25C10.6977 19 10.25 18.5523 10.25 18V11ZM14 7C14 5.89543 13.1046 5 12 5C10.8954 5 10 5.89543 10 7C10 8.10457 10.8954 9 12 9C13.1046 9 14 8.10457 14 7Z"
-                          ></path>
-                        </svg>
-                      </button>
-                      <button
-                        className={styles.deleteFromMP}
-                        onClick={(e) => {
-                          deleteFromMP(e, day.id);
-                        }}
+                        <button
+                          className={styles.recipeInfo}
+                          onClick={() => {
+                            navigate(`/info/${day.value.id}`);
+                          }}
+                        >
+                          <svg viewBox="-1.55 -1.55 27.1 27.1">
+                            <path
+                              fillRule="evenodd"
+                              clipRule="evenodd"
+                              d="M1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12ZM10.25 11C10.25 10.4477 10.6977 10 11.25 10H12.75C13.3023 10 13.75 10.4477 13.75 11V18C13.75 18.5523 13.3023 19 12.75 19H11.25C10.6977 19 10.25 18.5523 10.25 18V11ZM14 7C14 5.89543 13.1046 5 12 5C10.8954 5 10 5.89543 10 7C10 8.10457 10.8954 9 12 9C13.1046 9 14 8.10457 14 7Z"
+                            ></path>
+                          </svg>
+                        </button>
+                        <button
+                          className={styles.deleteFromMP}
+                          onClick={(e) => {
+                            deleteFromMP(e, day.id);
+                          }}
+                        >
+                          <svg viewBox="0 0 32 32">
+                            <path d="M16 29c-7.18 0-13-5.82-13-13s5.82-13 13-13 13 5.82 13 13-5.82 13-13 13zM21.961 12.209c0.244-0.244 0.244-0.641 0-0.885l-1.328-1.327c-0.244-0.244-0.641-0.244-0.885 0l-3.761 3.761-3.761-3.761c-0.244-0.244-0.641-0.244-0.885 0l-1.328 1.327c-0.244 0.244-0.244 0.641 0 0.885l3.762 3.762-3.762 3.76c-0.244 0.244-0.244 0.641 0 0.885l1.328 1.328c0.244 0.244 0.641 0.244 0.885 0l3.761-3.762 3.761 3.762c0.244 0.244 0.641 0.244 0.885 0l1.328-1.328c0.244-0.244 0.244-0.641 0-0.885l-3.762-3.76 3.762-3.762z"></path>
+                          </svg>
+                        </button>
+                        <p>{day.value.title}</p>
+                      </div>
+                    );
+                  })}
+              <button
+                className={styles.addButton}
+                onClick={() => handleButtonClick(dateKey, 0)}
+              >
+                +
+              </button>
+            </div>
+            <div className={styles.lunch}>
+              {daydata !== undefined &&
+                daydata.items
+                  .filter((item) => item.slot === 2)
+                  .map((day) => {
+                    return (
+                      <div
+                        className={styles.mealItem}
+                        style={{ backgroundImage: `url(${day.value.image})` }}
+                        key={v4()}
                       >
-                        <svg viewBox="0 0 32 32">
-                          <path d="M16 29c-7.18 0-13-5.82-13-13s5.82-13 13-13 13 5.82 13 13-5.82 13-13 13zM21.961 12.209c0.244-0.244 0.244-0.641 0-0.885l-1.328-1.327c-0.244-0.244-0.641-0.244-0.885 0l-3.761 3.761-3.761-3.761c-0.244-0.244-0.641-0.244-0.885 0l-1.328 1.327c-0.244 0.244-0.244 0.641 0 0.885l3.762 3.762-3.762 3.76c-0.244 0.244-0.244 0.641 0 0.885l1.328 1.328c0.244 0.244 0.641 0.244 0.885 0l3.761-3.762 3.761 3.762c0.244 0.244 0.641 0.244 0.885 0l1.328-1.328c0.244-0.244 0.244-0.641 0-0.885l-3.762-3.76 3.762-3.762z"></path>
-                        </svg>
-                      </button>
-                      <p>{day.value.title}</p>
-                    </div>
-                  );
-                })}
+                        <button
+                          className={styles.recipeInfo}
+                          onClick={() => {
+                            navigate(`/info/${day.value.id}`);
+                          }}
+                        >
+                          <svg viewBox="-1.55 -1.55 27.1 27.1">
+                            <path
+                              fillRule="evenodd"
+                              clipRule="evenodd"
+                              d="M1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12ZM10.25 11C10.25 10.4477 10.6977 10 11.25 10H12.75C13.3023 10 13.75 10.4477 13.75 11V18C13.75 18.5523 13.3023 19 12.75 19H11.25C10.6977 19 10.25 18.5523 10.25 18V11ZM14 7C14 5.89543 13.1046 5 12 5C10.8954 5 10 5.89543 10 7C10 8.10457 10.8954 9 12 9C13.1046 9 14 8.10457 14 7Z"
+                            ></path>
+                          </svg>
+                        </button>
+                        <button
+                          className={styles.deleteFromMP}
+                          onClick={(e) => {
+                            deleteFromMP(e, day.id);
+                          }}
+                        >
+                          <svg viewBox="0 0 32 32">
+                            <path d="M16 29c-7.18 0-13-5.82-13-13s5.82-13 13-13 13 5.82 13 13-5.82 13-13 13zM21.961 12.209c0.244-0.244 0.244-0.641 0-0.885l-1.328-1.327c-0.244-0.244-0.641-0.244-0.885 0l-3.761 3.761-3.761-3.761c-0.244-0.244-0.641-0.244-0.885 0l-1.328 1.327c-0.244 0.244-0.244 0.641 0 0.885l3.762 3.762-3.762 3.76c-0.244 0.244-0.244 0.641 0 0.885l1.328 1.328c0.244 0.244 0.641 0.244 0.885 0l3.761-3.762 3.761 3.762c0.244 0.244 0.641 0.244 0.885 0l1.328-1.328c0.244-0.244 0.244-0.641 0-0.885l-3.762-3.76 3.762-3.762z"></path>
+                          </svg>
+                        </button>
+                        <p>{day.value.title}</p>
+                      </div>
+                    );
+                  })}
+              <button
+                className={styles.addButton}
+                onClick={() => handleButtonClick(dateKey, 1)}
+              >
+                +
+              </button>
+            </div>
+            <div className={styles.dinner}>
+              {daydata !== undefined &&
+                daydata.items
+                  .filter((item) => item.slot === 3)
+                  .map((day) => {
+                    return (
+                      <div
+                        className={styles.mealItem}
+                        style={{ backgroundImage: `url(${day.value.image})` }}
+                        key={v4()}
+                      >
+                        <button
+                          className={styles.recipeInfo}
+                          onClick={() => {
+                            navigate(`/info/${day.value.id}`);
+                          }}
+                        >
+                          <svg viewBox="-1.55 -1.55 27.1 27.1">
+                            <path
+                              fillRule="evenodd"
+                              clipRule="evenodd"
+                              d="M1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12ZM10.25 11C10.25 10.4477 10.6977 10 11.25 10H12.75C13.3023 10 13.75 10.4477 13.75 11V18C13.75 18.5523 13.3023 19 12.75 19H11.25C10.6977 19 10.25 18.5523 10.25 18V11ZM14 7C14 5.89543 13.1046 5 12 5C10.8954 5 10 5.89543 10 7C10 8.10457 10.8954 9 12 9C13.1046 9 14 8.10457 14 7Z"
+                            ></path>
+                          </svg>
+                        </button>
+                        <button
+                          className={styles.deleteFromMP}
+                          onClick={(e) => {
+                            deleteFromMP(e, day.id);
+                          }}
+                        >
+                          <svg viewBox="0 0 32 32">
+                            <path d="M16 29c-7.18 0-13-5.82-13-13s5.82-13 13-13 13 5.82 13 13-5.82 13-13 13zM21.961 12.209c0.244-0.244 0.244-0.641 0-0.885l-1.328-1.327c-0.244-0.244-0.641-0.244-0.885 0l-3.761 3.761-3.761-3.761c-0.244-0.244-0.641-0.244-0.885 0l-1.328 1.327c-0.244 0.244-0.244 0.641 0 0.885l3.762 3.762-3.762 3.76c-0.244 0.244-0.244 0.641 0 0.885l1.328 1.328c0.244 0.244 0.641 0.244 0.885 0l3.761-3.762 3.761 3.762c0.244 0.244 0.641 0.244 0.885 0l1.328-1.328c0.244-0.244 0.244-0.641 0-0.885l-3.762-3.76 3.762-3.762z"></path>
+                          </svg>
+                        </button>
+                        <p>{day.value.title}</p>
+                      </div>
+                    );
+                  })}
+              <button
+                className={styles.addButton}
+                onClick={() => handleButtonClick(dateKey, 2)}
+              >
+                +
+              </button>
+            </div>
             <button
-              className={styles.addButton}
-              onClick={() => handleButtonClick(dateKey, 0)}
+              className={styles.clearDay}
+              onClick={(e) => clearMPDay(e, dateKey)}
             >
-              +
+              clear a day
             </button>
-          </div>
-          <div className={styles.lunch}>
-            {daydata !== undefined &&
-              daydata.items
-                .filter((item) => item.slot === 2)
-                .map((day) => {
-                  return (
-                    <div
-                      className={styles.mealItem}
-                      style={{ backgroundImage: `url(${day.value.image})` }}
-                      key={v4()}
-                    >
-                      <button
-                        className={styles.recipeInfo}
-                        onClick={() => {
-                          navigate(`/info/${day.value.id}`);
-                        }}
-                      >
-                        <svg viewBox="-1.55 -1.55 27.1 27.1">
-                          <path
-                            fillRule="evenodd"
-                            clipRule="evenodd"
-                            d="M1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12ZM10.25 11C10.25 10.4477 10.6977 10 11.25 10H12.75C13.3023 10 13.75 10.4477 13.75 11V18C13.75 18.5523 13.3023 19 12.75 19H11.25C10.6977 19 10.25 18.5523 10.25 18V11ZM14 7C14 5.89543 13.1046 5 12 5C10.8954 5 10 5.89543 10 7C10 8.10457 10.8954 9 12 9C13.1046 9 14 8.10457 14 7Z"
-                          ></path>
-                        </svg>
-                      </button>
-                      <button
-                        className={styles.deleteFromMP}
-                        onClick={(e) => {
-                          deleteFromMP(e, day.id);
-                        }}
-                      >
-                        <svg viewBox="0 0 32 32">
-                          <path d="M16 29c-7.18 0-13-5.82-13-13s5.82-13 13-13 13 5.82 13 13-5.82 13-13 13zM21.961 12.209c0.244-0.244 0.244-0.641 0-0.885l-1.328-1.327c-0.244-0.244-0.641-0.244-0.885 0l-3.761 3.761-3.761-3.761c-0.244-0.244-0.641-0.244-0.885 0l-1.328 1.327c-0.244 0.244-0.244 0.641 0 0.885l3.762 3.762-3.762 3.76c-0.244 0.244-0.244 0.641 0 0.885l1.328 1.328c0.244 0.244 0.641 0.244 0.885 0l3.761-3.762 3.761 3.762c0.244 0.244 0.641 0.244 0.885 0l1.328-1.328c0.244-0.244 0.244-0.641 0-0.885l-3.762-3.76 3.762-3.762z"></path>
-                        </svg>
-                      </button>
-                      <p>{day.value.title}</p>
-                    </div>
-                  );
-                })}
-            <button
-              className={styles.addButton}
-              onClick={() => handleButtonClick(dateKey, 1)}
-            >
-              +
-            </button>
-          </div>
-          <div className={styles.dinner}>
-            {daydata !== undefined &&
-              daydata.items
-                .filter((item) => item.slot === 3)
-                .map((day) => {
-                  return (
-                    <div
-                      className={styles.mealItem}
-                      style={{ backgroundImage: `url(${day.value.image})` }}
-                      key={v4()}
-                    >
-                      <button
-                        className={styles.recipeInfo}
-                        onClick={() => {
-                          navigate(`/info/${day.value.id}`);
-                        }}
-                      >
-                        <svg viewBox="-1.55 -1.55 27.1 27.1">
-                          <path
-                            fillRule="evenodd"
-                            clipRule="evenodd"
-                            d="M1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12ZM10.25 11C10.25 10.4477 10.6977 10 11.25 10H12.75C13.3023 10 13.75 10.4477 13.75 11V18C13.75 18.5523 13.3023 19 12.75 19H11.25C10.6977 19 10.25 18.5523 10.25 18V11ZM14 7C14 5.89543 13.1046 5 12 5C10.8954 5 10 5.89543 10 7C10 8.10457 10.8954 9 12 9C13.1046 9 14 8.10457 14 7Z"
-                          ></path>
-                        </svg>
-                      </button>
-                      <button
-                        className={styles.deleteFromMP}
-                        onClick={(e) => {
-                          deleteFromMP(e, day.id);
-                        }}
-                      >
-                        <svg viewBox="0 0 32 32">
-                          <path d="M16 29c-7.18 0-13-5.82-13-13s5.82-13 13-13 13 5.82 13 13-5.82 13-13 13zM21.961 12.209c0.244-0.244 0.244-0.641 0-0.885l-1.328-1.327c-0.244-0.244-0.641-0.244-0.885 0l-3.761 3.761-3.761-3.761c-0.244-0.244-0.641-0.244-0.885 0l-1.328 1.327c-0.244 0.244-0.244 0.641 0 0.885l3.762 3.762-3.762 3.76c-0.244 0.244-0.244 0.641 0 0.885l1.328 1.328c0.244 0.244 0.641 0.244 0.885 0l3.761-3.762 3.761 3.762c0.244 0.244 0.641 0.244 0.885 0l1.328-1.328c0.244-0.244 0.244-0.641 0-0.885l-3.762-3.76 3.762-3.762z"></path>
-                        </svg>
-                      </button>
-                      <p>{day.value.title}</p>
-                    </div>
-                  );
-                })}
-            <button
-              className={styles.addButton}
-              onClick={() => handleButtonClick(dateKey, 2)}
-            >
-              +
-            </button>
-          </div>
+          </li>
           {buttonStatesForDate[buttonIndex] && (
             <div className={styles.newDiv}>
               <div className={styles.addCard}>
                 <button
                   className={styles.exitbtn}
                   onClick={() => {
-                    handleButtonClick(dateKey, buttonIndex, 1);
+                    handleButtonClick(dateKey, buttonIndex);
                     setShowFavorites(false);
                   }}
                 >
@@ -459,39 +503,11 @@ const Calendar = () => {
               </div>
             </div>
           )}
-        </li>
+        </>
       );
     });
 
     return <ul>{days}</ul>;
-  };
-
-  const monthName = () => {
-    return (
-      <div className={styles.monthName}>
-        {currentWeekStartDate.toLocaleDateString("en-US", {
-          month: "long",
-        })}
-        {currentWeekStartDate.getMonth() !==
-        new Date(
-          currentWeekStartDate.getFullYear(),
-          currentWeekStartDate.getMonth(),
-          currentWeekStartDate.getDate() + 6
-        ).getMonth() ? (
-          <span>
-            {" "}
-            /{" "}
-            {new Date(
-              currentWeekStartDate.getFullYear(),
-              currentWeekStartDate.getMonth(),
-              currentWeekStartDate.getDate() + 6
-            ).toLocaleDateString("en-US", {
-              month: "long",
-            })}
-          </span>
-        ) : null}
-      </div>
-    );
   };
 
   return (

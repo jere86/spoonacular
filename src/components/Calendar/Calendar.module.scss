@@ -1,14 +1,13 @@
 .calendar {
   width: 100%;
   height: 100%;
-  // min-height: 100vh;
-  // position: relative;
 
   .weekNav {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 1rem;
+    user-select: none;
 
     .monthName {
       display: flex;
@@ -36,15 +35,16 @@
   ul {
     list-style-type: none;
     display: flex;
-    height: 90%;
-    // margin-top: 1rem;
-    // border: 0.25rem solid #29a64d;
+    height: fit-content;
 
     li {
       display: flex;
       flex-direction: column;
       width: calc(100% / 7);
       height: 100%;
+      position: relative;
+      align-items: center;
+      z-index: 2;
 
       div {
         width: 100%;
@@ -53,46 +53,44 @@
         align-items: center;
       }
 
-      .dayName {
-        position: relative;
-        height: 10%;
-        font-size: 1.5rem;
+      .dayDate {
+        flex-direction: column;
+        width: 95%;
+        border-radius: 1rem 0 1rem;
         background-color: #29a64d;
-        color: white;
-        padding: 1rem 0 0.5rem;
+        margin-bottom: 0.5rem;
+        overflow: hidden;
+        box-shadow: 2px 2px 0.5rem #2aa74dcc;
+        user-select: none;
 
-        .line {
-          position: absolute;
-          bottom: 0;
-          align-self: center;
-          width: 75%;
-          height: 0.25rem;
-          background-color: #d0f4da;
+        .dayName {
+          width: 100%;
+          font-size: 1.5rem;
+          padding: 0.5rem 0 0.5rem;
+          color: white;
         }
-      }
 
-      .dayNumber {
-        // height: 10%;
-        font-size: 3.5rem;
-        font-weight: bold;
-        padding: 0.5rem 0;
-        background-color: white;
-        border: 0.75rem solid #29a64d;
-        // margin-bottom: 0.5rem;
+        .dayNumber {
+          width: 100%;
+          font-size: 3.5rem;
+          font-weight: bold;
+          background-color: white;
+          border: 0.75rem solid #29a64d;
+          border-top: none;
+        }
       }
 
       .breakfast,
       .lunch,
       .dinner {
-        display: flex;
         flex-direction: column;
         justify-content: flex-start;
-        height: 25%;
+        height: 23vh;
         border: 0.25rem double #29a64d;
         padding: 0.25rem;
         text-wrap: balance;
         overflow-y: scroll;
-        background-color: transparent;
+        background-color: #d0f4da;
 
         .addButton {
           width: 1.5rem;
@@ -109,7 +107,6 @@
           &:hover {
             cursor: pointer;
             outline: 1px solid black;
-            // transform: scale(1.2);
           }
         }
 
@@ -125,7 +122,7 @@
           margin-bottom: 0.5rem;
           background-repeat: no-repeat;
           background-position: center;
-          background-size: 110%;
+          background-size: 125%;
           color: white;
           border-radius: 1rem 0 1rem;
           overflow: hidden;
@@ -189,250 +186,279 @@
           }
         }
 
-        // &:hover {
-        //   overflow-y: visible;
-        // }
+        &:hover {
+          border: 0.1rem solid #29a64d;
+          padding: 0.425rem;
+        }
       }
 
-      .newDiv {
+      .dinner:hover {
+        padding-bottom: 0.45rem;
+      }
+
+      .clearDay {
         position: absolute;
-        width: max-content;
-        // border: 1px solid black;
-        width: 100%;
-        min-height: 100%;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 99;
-        background-color: rgba(128, 128, 128, 0.6);
+        bottom: 0;
+        width: 50%;
+        height: 1rem;
+        font-size: 0.75rem;
+        border: none;
+        border-radius: 0 0 0.5rem 0.5rem;
+        z-index: -1;
+        color: white;
+        background-color: red;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+
+      &:hover {
+        .clearDay {
+          bottom: -1rem;
+          transition: 0.5s ease;
+        }
+      }
+    }
+
+    .newDiv {
+      position: absolute;
+      width: max-content;
+      // border: 1px solid black;
+      width: 100%;
+      min-height: 100%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 99;
+      background-color: rgba(128, 128, 128, 0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .addCard {
+        width: 75%;
+        max-height: 90vh;
+        // height: max-content;
+        // height: 25%;
+        padding: 1rem 0.5rem;
+        background-color: white;
         display: flex;
-        justify-content: center;
+        flex-direction: column;
         align-items: center;
+        border-radius: 2rem 0 2rem;
+        overflow: scroll;
+        overflow-x: hidden;
+        position: relative;
 
-        .addCard {
-          width: 75%;
-          max-height: 90vh;
-          // height: max-content;
-          // height: 25%;
-          padding: 1rem 0.5rem;
-          background-color: white;
-          display: flex;
-          flex-direction: column;
-          justify-content: flex-start;
-          border-radius: 2rem 0 2rem;
-          overflow: scroll;
-          overflow-x: hidden;
-          position: relative;
+        p {
+          margin-bottom: 1rem;
+          line-height: 1.5rem;
 
-          p {
-            margin-bottom: 1rem;
-            line-height: 1.5rem;
-
-            span {
-              font-size: 2rem;
-              font-weight: bold;
-            }
+          span {
+            font-size: 2rem;
+            font-weight: bold;
           }
+        }
 
-          .searchbar {
-            width: 50%;
-            border: 2px solid black;
-            border-radius: 0.5rem 0 0.5rem;
-            padding: 0.25rem 0.5rem;
+        .searchbar {
+          display: flex;
+          flex-direction: row;
+          width: 50%;
+          border: 2px solid black;
+          border-radius: 0.5rem 0 0.5rem;
+          padding: 0.25rem 0.5rem;
 
-            form {
-              display: flex;
-              width: 100%;
+          form {
+            display: flex;
+            width: 100%;
+            // height: 2rem;
+            justify-content: space-between;
+            align-items: center;
+            border-right: none;
+            // margin-bottom: 0.5rem;
+            transition: all 0.75s ease-in-out;
+
+            input {
               // height: 2rem;
-              justify-content: space-between;
-              align-items: center;
-              border-right: none;
-              // margin-bottom: 0.5rem;
-              transition: all 0.75s ease-in-out;
-
-              input {
-                // height: 2rem;
-                line-height: 1rem;
-                width: 100%;
-                // padding: 0.25rem;
-                border: none;
-                outline: none;
-                text-align: center;
-              }
-
-              button {
-                width: 1.5rem;
-                height: 1.5rem;
-                background-color: transparent;
-                border: none;
-
-                &:hover {
-                  cursor: pointer;
-                }
-
-                svg {
-                  width: 100%;
-                  height: 100%;
-                  fill: #000000;
-                  background-color: transparent;
-                }
-              }
+              line-height: 1rem;
+              width: 100%;
+              // padding: 0.25rem;
+              border: none;
+              outline: none;
+              text-align: center;
             }
 
-            .addFromFav {
+            button {
               width: 1.5rem;
               height: 1.5rem;
               background-color: transparent;
               border: none;
-              margin: -2px 0 0 4px;
 
               &:hover {
                 cursor: pointer;
               }
 
               svg {
-                width: 1.5rem;
-                height: 1.5rem;
-                fill: gold;
-                stroke: black;
-                stroke-width: 5px;
-              }
-            }
-          }
-
-          .recipesMP {
-            display: flex;
-            flex-direction: row;
-
-            button {
-              background-color: transparent;
-              border: none;
-
-              svg {
+                width: 100%;
+                height: 100%;
                 fill: #000000;
-                width: 1.5rem;
-              }
-
-              &:hover {
-                cursor: pointer;
-              }
-
-              &:disabled {
-                svg {
-                  fill: rgb(160, 160, 160);
-                }
-
-                &:hover {
-                  cursor: auto;
-                }
-              }
-            }
-
-            .recipesListMP {
-              // height: 85%;
-              display: flex;
-              flex-wrap: wrap;
-              justify-content: space-evenly;
-              align-items: flex-start;
-              margin-top: 0.5rem;
-
-              .recipeMP {
-                // height: min-content;
-                width: 10rem;
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-                padding-top: 0.5rem;
-
-                p {
-                  text-align: center;
-                  text-wrap: balance;
-                  margin: 0;
-                }
-
-                .imageMP {
-                  position: relative;
-                  width: 8rem;
-                  height: 8rem;
-                  overflow: hidden;
-                  border: 0.25rem dashed #29a64d;
-                  border-radius: 50%;
-
-                  img {
-                    transform: scale(0.65);
-                  }
-
-                  button {
-                    svg {
-                      display: none;
-                      position: absolute;
-                      top: 35%;
-                      left: 35%;
-                      width: 30%;
-                      height: 30%;
-
-                      path {
-                        fill: rgba(255, 255, 255, 0.8);
-                      }
-                    }
-
-                    &:hover {
-                      cursor: pointer;
-
-                      svg {
-                        top: 30%;
-                        left: 30%;
-                        width: 40%;
-                        height: 40%;
-
-                        path {
-                          fill: #29a64d;
-                        }
-                      }
-                    }
-                  }
-
-                  &:hover {
-                    border: 0.25rem solid #29a64d;
-
-                    svg {
-                      display: block;
-                    }
-                  }
-                }
+                background-color: transparent;
               }
             }
           }
 
-          .exitbtn {
-            position: absolute;
-            top: 1rem;
-            right: 2rem;
-            width: 2rem;
-            height: 2rem;
-            border: none;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+          .addFromFav {
+            width: 1.5rem;
+            height: 1.5rem;
             background-color: transparent;
+            border: none;
+            margin: -2px 0 0 4px;
 
             &:hover {
               cursor: pointer;
             }
-          }
 
-          &::-webkit-scrollbar {
-            width: 0.5em;
+            svg {
+              width: 1.5rem;
+              height: 1.5rem;
+              fill: gold;
+              stroke: black;
+              stroke-width: 5px;
+            }
           }
+        }
 
-          &::-webkit-scrollbar-track {
+        .recipesMP {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          width: 100%;
+
+          button {
             background-color: transparent;
-            margin: 6rem 0 2.5rem;
+            border: none;
+
+            svg {
+              fill: #000000;
+              width: 1.5rem;
+            }
+
+            &:hover {
+              cursor: pointer;
+            }
+
+            &:disabled {
+              svg {
+                fill: rgb(160, 160, 160);
+              }
+
+              &:hover {
+                cursor: auto;
+              }
+            }
           }
 
-          &::-webkit-scrollbar-thumb {
-            background-color: #29a64d;
+          .recipesListMP {
+            // height: 85%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+            align-items: flex-start;
+            margin-top: 0.5rem;
+
+            .recipeMP {
+              // height: min-content;
+              width: 10rem;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              padding-top: 0.5rem;
+
+              p {
+                text-align: center;
+                text-wrap: balance;
+                margin: 0;
+              }
+
+              .imageMP {
+                position: relative;
+                width: 8rem;
+                height: 8rem;
+                overflow: hidden;
+                border: 0.25rem dashed #29a64d;
+                border-radius: 50%;
+
+                img {
+                  position: absolute;
+                  top: 50%;
+                  left: 50%;
+                  transform: translate(-50%, -50%);
+                  width: 110%;
+                  height: 110%;
+                }
+
+                button {
+                  svg {
+                    display: none;
+                    position: absolute;
+                    top: 35%;
+                    left: 35%;
+                    width: 30%;
+                    height: 30%;
+
+                    path {
+                      fill: rgba(255, 255, 255, 0.8);
+                    }
+                  }
+
+                  &:hover {
+                    cursor: pointer;
+
+                    svg {
+                      top: 30%;
+                      left: 30%;
+                      width: 40%;
+                      height: 40%;
+
+                      path {
+                        fill: #29a64d;
+                      }
+                    }
+                  }
+                }
+
+                &:hover {
+                  border: 0.25rem solid #29a64d;
+
+                  svg {
+                    display: block;
+                  }
+                }
+              }
+            }
           }
+        }
+
+        .exitbtn {
+          position: absolute;
+          top: 1rem;
+          right: 2rem;
+          width: 2rem;
+          height: 2rem;
+          border: none;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: transparent;
+
+          &:hover {
+            cursor: pointer;
+          }
+        }
+
+        &::-webkit-scrollbar {
+          display: none;
         }
       }
     }
