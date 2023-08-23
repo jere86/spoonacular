@@ -110,7 +110,7 @@ const Calendar = () => {
     return number + suffix;
   };
 
-  const handleButtonClick = (dateKey, buttonIndex, alsoDo) => {
+  const handleButtonClick = (dateKey, buttonIndex, alsoDo, reset) => {
     setButtonIndex(buttonIndex);
     if (alsoDo) {
       setRecipeList();
@@ -120,7 +120,9 @@ const Calendar = () => {
     setButtonStates((prevState) => {
       const prevButtonStates = prevState[dateKey] || [false, false, false];
       const newButtonStates = [...prevButtonStates];
-      newButtonStates[buttonIndex] = !prevButtonStates[buttonIndex];
+      newButtonStates[buttonIndex] = reset
+        ? false
+        : !prevButtonStates[buttonIndex];
       return {
         ...prevState,
         [dateKey]: newButtonStates,
@@ -167,7 +169,7 @@ const Calendar = () => {
         }
       };
 
-      const addToMealPlan = async (e, recipe) => {
+      const addToMealPlan = async (e, recipe, i, reset) => {
         e.preventDefault();
 
         const timestamp = new Date(dateKey).getTime() / 1000;
@@ -175,7 +177,7 @@ const Calendar = () => {
           `mealplanner/${currentUser.userData.username}/items/?hash=${currentUser.userData.hash}`,
           {
             date: timestamp,
-            slot: buttonIndex + 1,
+            slot: i ? i : buttonIndex + 1,
             position: 1,
             type: "RECIPE",
             value: {
@@ -188,7 +190,24 @@ const Calendar = () => {
         );
 
         setShowFavorites(false);
-        handleButtonClick(dateKey, buttonIndex, 1);
+        handleButtonClick(dateKey, i ? i - 1 : buttonIndex, 1, reset);
+      };
+
+      const generateDayMP = async (e) => {
+        e.preventDefault();
+
+        const genMP = await getWMPRequest(
+          `mealplanner/generate?timeFrame=day?hash=${currentUser.userData.hash}`
+        );
+
+        // console.log(genMP);
+        genMP.meals.forEach(async (recipe, i) => {
+          const recipeInfo = await getRequest(
+            `/recipes/${recipe.id}/information`
+          );
+          // console.log(recipeInfo, i + 1);
+          addToMealPlan(e, recipeInfo, i + 1, 1);
+        });
       };
 
       const deleteFromMP = async (e, itemId) => {
@@ -278,7 +297,17 @@ const Calendar = () => {
         <>
           <li key={currentDateIterator.getTime()}>
             <div className={styles.dayDate}>
-              <div className={styles.dayName}>{dayName}</div>
+              <div className={styles.dayName}>
+                {dayName}
+                <button
+                  onClick={(e) => generateDayMP(e)}
+                  title="Generate Meals"
+                >
+                  <svg fill="#000000" viewBox="0 0 512 512">
+                    <path d="M406.988,84.282c-19.535,0-38.188,5.269-54.409,15.149c-6.154-14.402-15.515-27.375-27.502-37.858 C305.957,44.855,281.424,35.647,256,35.647s-49.957,9.207-69.077,25.925c-11.989,10.482-21.348,23.456-27.502,37.858 c-16.22-9.879-34.874-15.149-54.409-15.149C47.108,84.282,0,131.39,0,189.294c0,52.224,38.317,95.666,88.317,103.686v183.373 h335.368V292.98C473.683,284.96,512,241.518,512,189.294C512,131.39,464.892,84.282,406.988,84.282z M390.293,442.961H121.708 V390.42h268.585V442.961z M406.988,260.915h-16.696v96.115H121.708v-96.115h-16.696c-39.492,0-71.621-32.129-71.621-71.621 s32.129-71.621,71.621-71.621c19.612,0,37.924,7.795,51.562,21.948l23.707,24.601l4.843-33.819 C190.132,95.42,220.603,69.04,256,69.04s65.868,26.38,70.876,61.363l4.843,33.819l23.707-24.601 c13.638-14.153,31.951-21.948,51.562-21.948c39.492,0,71.621,32.129,71.621,71.621S446.48,260.915,406.988,260.915z"></path>
+                  </svg>
+                </button>
+              </div>
               <div className={styles.dayNumber}>{dayNumber}</div>
             </div>
             <div className={styles.breakfast}>
@@ -423,7 +452,7 @@ const Calendar = () => {
               className={styles.clearDay}
               onClick={(e) => clearMPDay(e, dateKey)}
             >
-              CLEAR ALL
+              CLEAR DAY
             </button>
           </li>
           {buttonStatesForDate[buttonIndex] && (
@@ -438,7 +467,7 @@ const Calendar = () => {
                 className={styles.addCard}
                 onClick={(e) => e.stopPropagation()}
               >
-                <button
+                {/* <button
                   className={styles.exitbtn}
                   onClick={() => {
                     handleButtonClick(dateKey, buttonIndex);
@@ -454,7 +483,7 @@ const Calendar = () => {
                       strokeLinejoin="round"
                     ></path>
                   </svg>
-                </button>
+                </button> */}
                 <p>
                   add{" "}
                   <span>
@@ -499,7 +528,12 @@ const Calendar = () => {
                       setCurrentPage(1);
                     }}
                   >
-                    <svg viewBox="-4 0 55 45">
+                    <svg
+                      viewBox="-4 0 55 45"
+                      style={{
+                        fill: showFavorites ? "gold" : "white",
+                      }}
+                    >
                       <path d="M26.285,2.486l5.407,10.956c0.376,0.762,1.103,1.29,1.944,1.412l12.091,1.757 c2.118,0.308,2.963,2.91,1.431,4.403l-8.749,8.528c-0.608,0.593-0.886,1.448-0.742,2.285l2.065,12.042 c0.362,2.109-1.852,3.717-3.746,2.722l-10.814-5.685c-0.752-0.395-1.651-0.395-2.403,0l-10.814,5.685 c-1.894,0.996-4.108-0.613-3.746-2.722l2.065-12.042c0.144-0.837-0.134-1.692-0.742-2.285l-8.749-8.528 c-1.532-1.494-0.687-4.096,1.431-4.403l12.091-1.757c0.841-0.122,1.568-0.65,1.944-1.412l5.407-10.956 C22.602,0.567,25.338,0.567,26.285,2.486z" />
                     </svg>
                   </button>
@@ -533,6 +567,8 @@ const Calendar = () => {
       </ul>
     );
   };
+
+  console.log(buttonStates);
 
   return (
     <div className={styles.calendar}>

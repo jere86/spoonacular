@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const SPOONACULAR_API = "https://api.spoonacular.com/";
-const API_KEY = "e1f556e241884f5e8493a5f17cb629bd";
+const API_KEY = "1f97c3a35c4b4fffa5d165a9658983be";
 
 // e1f556e241884f5e8493a5f17cb629bd
 // 9bd11a9d9e5a4727b2d9fed3489fd620
