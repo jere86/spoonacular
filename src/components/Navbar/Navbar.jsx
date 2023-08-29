@@ -37,10 +37,18 @@ const Navbar = () => {
         </li>
         <li key={v4()}>
           <NavLink
+            to="/shopinglist"
+            className={({ isActive }) => (isActive ? styles.active : "")}
+          >
+            SHOPING LIST
+          </NavLink>
+        </li>
+        <li key={v4()}>
+          <NavLink
             to="/search"
             className={({ isActive }) => (isActive ? styles.active : "")}
           >
-            SEARCH
+            SEARCH RECIPES
           </NavLink>
         </li>
         <li key={v4()}>

@@ -11,3 +11,11 @@ DELETE https://api.spoonacular.com/mealplanner/asd39/day/2023-08-03?hash=0e7dec8
 ###
 
 GET https://api.spoonacular.com/mealplanner/generate?timeFrame=day?hash=0e7dec867a7aeafbea905084cd22bae2d138c601&apiKey=9bd11a9d9e5a4727b2d9fed3489fd620
+
+###
+
+POST https://api.spoonacular.com/mealplanner/asd39/shopping-list/2023-08-14/2023-08-27?hash=0e7dec867a7aeafbea905084cd22bae2d138c601&apiKey=9bd11a9d9e5a4727b2d9fed3489fd620
+
+###
+
+GET https://api.spoonacular.com/mealplanner/asd39/shopping-list?hash=0e7dec867a7aeafbea905084cd22bae2d138c601&apiKey=9bd11a9d9e5a4727b2d9fed3489fd620

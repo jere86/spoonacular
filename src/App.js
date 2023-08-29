@@ -8,6 +8,7 @@ import Login from "./components/Login/Login";
 import Navbar from "./components/Navbar/Navbar";
 import Signup from "./components/Signup/Signup";
 import MealPlanner from "./pages/MealPlanner/MealPlanner";
+import ShopingList from "./pages/ShopingList/ShopingList";
 
 export default function App() {
   return (
@@ -56,6 +57,15 @@ export default function App() {
           <>
             <Navbar />
             <MealPlanner />
+          </>
+        }
+      />
+      <Route
+        path="/shopinglist"
+        element={
+          <>
+            <Navbar />
+            <ShopingList />
           </>
         }
       />

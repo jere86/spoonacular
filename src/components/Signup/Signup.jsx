@@ -28,7 +28,7 @@ const Signup = () => {
     if (userExists) {
       alert("Username or email already exists");
     } else {
-      const userData = await postRequest("users/connect", {
+      const userData = await postRequest("users/connect", "?", {
         username: username,
         email: email,
       });
