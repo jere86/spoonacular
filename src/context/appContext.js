@@ -13,6 +13,7 @@ export function AppContextProvider(Component) {
     const [loggedIn, setLoggedIn] = useState(false);
     const [recipesData, setRecipesData] = useState(null);
     const [users, setUsers] = useState(getUsersFromLocalStorage());
+    const [shopingListData, setShopingListData] = useState();
 
     useEffect(() => {
       saveUsersToLocalStorage(users);
@@ -36,6 +37,8 @@ export function AppContextProvider(Component) {
           loggedIn,
           setLoggedIn,
           currentUser,
+          shopingListData,
+          setShopingListData,
         }}
       >
         <Component {...props} />

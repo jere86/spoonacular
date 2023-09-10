@@ -38,6 +38,7 @@ const Signup = () => {
         email,
         userData,
         favorites: [],
+        shopingLists: [],
       };
 
       setUsers([...users, newUser]);

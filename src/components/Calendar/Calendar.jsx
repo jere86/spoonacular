@@ -554,13 +554,13 @@ const Calendar = () => {
     return (
       <ul>
         <div className={styles.mealLabel}>
-          <div>
+          <div key={v4()}>
             <div>BREAKFAST</div>
           </div>
-          <div>
+          <div key={v4()}>
             <div>LUNCH</div>
           </div>
-          <div>
+          <div key={v4()}>
             <div>DINNER</div>
           </div>
         </div>
