@@ -9,6 +9,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Signup from "./components/Signup/Signup";
 import MealPlanner from "./pages/MealPlanner/MealPlanner";
 import ShopingList from "./pages/ShopingList/ShopingList";
+import Community from "./pages/Community/Community";
 
 export default function App() {
   return (
@@ -66,6 +67,15 @@ export default function App() {
           <>
             <Navbar />
             <ShopingList />
+          </>
+        }
+      />
+      <Route
+        path="/community"
+        element={
+          <>
+            <Navbar />
+            <Community />
           </>
         }
       />

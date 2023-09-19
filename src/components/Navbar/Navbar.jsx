@@ -59,6 +59,14 @@ const Navbar = () => {
             FAVORITES
           </NavLink>
         </li>
+        <li key={v4()}>
+          <NavLink
+            to="/community"
+            className={({ isActive }) => (isActive ? styles.active : "")}
+          >
+            COMMUNITY
+          </NavLink>
+        </li>
       </ul>
       <div>
         <p>Welcome, {username.toUpperCase()}!</p>
