@@ -4,9 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../context/appContext";
 
 import styles from "./Recipe.module.scss";
+import axios from "axios";
 
 const Recipe = ({ recipe }) => {
-  const { currentUser, username, setUsers } = useContext(AppContext);
+  const { currentUser, getUsers } = useContext(AppContext);
   const [isToggled, setIsToggled] = useState(
     currentUser.favorites.includes(recipe) ? true : false
   );
@@ -20,40 +21,49 @@ const Recipe = ({ recipe }) => {
     e.stopPropagation();
   };
 
-  const onToggle = () => {
+  const onToggle = async () => {
     setIsToggled(!isToggled);
     !isToggled
-      ? setUsers((prevUsers) => [
-          ...prevUsers.map((user) => {
-            if (user.username === username) {
-              return {
-                ...user,
-                favorites: [...user.favorites, recipe],
-              };
-            } else {
-              return {
-                ...user,
-              };
-            }
-          }),
-        ])
-      : setUsers((prevUsers) => [
-          ...prevUsers.map((user) => {
-            if (user.username === username) {
-              return {
-                ...user,
-                favorites: user.favorites.filter(
-                  (favorite) => favorite.id !== recipe.id
-                ),
-              };
-            } else {
-              return {
-                ...user,
-              };
-            }
-          }),
-        ]);
+      ? await axios.patch(`http://localhost:5000/users/${currentUser._id}`, {
+          favorites: [...currentUser.favorites, recipe],
+        })
+      : await axios.patch(`http://localhost:5000/users/${currentUser._id}`, {
+          favorites: currentUser.favorites.filter(
+            (favorite) => favorite.id !== recipe.id
+          ),
+        });
+    getUsers();
   };
+  // setUsers((prevUsers) => [
+  //   ...prevUsers.map((user) => {
+  //     if (user.username === username) {
+  //       return {
+  //         ...user,
+  //         favorites: [...user.favorites, recipe],
+  //       };
+  //     } else {
+  //       return {
+  //         ...user,
+  //       };
+  //     }
+  //   }),
+  // ])
+  // setUsers((prevUsers) => [
+  //   ...prevUsers.map((user) => {
+  //     if (user.username === username) {
+  //       return {
+  //         ...user,
+  //         favorites: user.favorites.filter(
+  //           (favorite) => favorite.id !== recipe.id
+  //         ),
+  //       };
+  //     } else {
+  //       return {
+  //         ...user,
+  //       };
+  //     }
+  //   }),
+  // ]);
 
   return (
     <div className={styles.recipe} onClick={showInfo}>

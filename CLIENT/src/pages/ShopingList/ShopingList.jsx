@@ -3,15 +3,11 @@ import { postRequest } from "../../helpers/http";
 import styles from "./ShopingList.module.scss";
 import { AppContext } from "../../context/appContext";
 import { v4 } from "uuid";
+import axios from "axios";
 
 const ShopingList = () => {
-  const {
-    currentUser,
-    shopingListData,
-    setShopingListData,
-    setUsers,
-    username,
-  } = useContext(AppContext);
+  const { currentUser, getUsers } = useContext(AppContext);
+  const [shopingListData, setShopingListData] = useState();
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [showSaved, setShowSaved] = useState(false);
@@ -27,40 +23,20 @@ const ShopingList = () => {
     setShopingListData(SLData);
   };
 
-  const saveSL = (SL) => {
-    setUsers((prevUsers) => [
-      ...prevUsers.map((user) => {
-        if (user.username === username) {
-          return {
-            ...user,
-            shopingLists: [...user.shopingLists, SL],
-          };
-        } else {
-          return {
-            ...user,
-          };
-        }
-      }),
-    ]);
+  const saveSL = async (SL) => {
+    await axios.patch(`http://localhost:5000/users/${currentUser._id}`, {
+      shopingLists: [...currentUser.shopingLists, SL],
+    });
+    getUsers();
   };
 
-  const delSL = (SL) => {
-    setUsers((prevUsers) => [
-      ...prevUsers.map((user) => {
-        if (user.username === username) {
-          return {
-            ...user,
-            shopingLists: user.shopingLists.filter(
-              (shopingList) => shopingList !== SL
-            ),
-          };
-        } else {
-          return {
-            ...user,
-          };
-        }
-      }),
-    ]);
+  const delSL = async (SL) => {
+    await axios.patch(`http://localhost:5000/users/${currentUser._id}`, {
+      shopingLists: currentUser.shopingLists.filter(
+        (shopingList) => shopingList !== SL
+      ),
+    });
+    getUsers();
   };
 
   const dateFormat = (time) => {

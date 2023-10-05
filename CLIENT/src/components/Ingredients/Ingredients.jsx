@@ -1,3 +1,4 @@
+import { v4 } from "uuid";
 import styles from "./Ingredients.module.scss";
 
 const Ingredients = ({ ingredients }) => {
@@ -7,7 +8,7 @@ const Ingredients = ({ ingredients }) => {
       <div className={styles.ingredientsList}>
         {ingredients.map((ingredient) => {
           return (
-            <div className={styles.ingredient} key={ingredient.name}>
+            <div className={styles.ingredient} key={v4()}>
               <p>{ingredient.name}</p>
               <img
                 src={`https://spoonacular.com/cdn/ingredients_100x100/${ingredient.image}`}

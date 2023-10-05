@@ -35,7 +35,14 @@ const Info = () => {
 
   return (
     <div className={styles.info}>
-      <h1 className={styles.name}>{recipe !== undefined && recipe.title}</h1>
+      {recipe !== undefined && (
+        <h1
+          className={styles.name}
+          style={{ backgroundImage: `url(${recipe.image})` }}
+        >
+          <span>{recipe.title.toUpperCase()}</span>
+        </h1>
+      )}
       <Ingredients ingredients={ingredients} />
       <Instructions instructions={analyzedInstructions} />
       {recipe !== undefined && <Nutrition recipe={recipe} />}

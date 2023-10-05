@@ -1,44 +1,49 @@
+import axios from "axios";
 import { createContext, useEffect, useState } from "react";
-import {
-  getUsersFromLocalStorage,
-  saveUsersToLocalStorage,
-} from "../helpers/users";
 
 export const AppContext = createContext();
 
 export function AppContextProvider(Component) {
   return function Context(props) {
+    const [users, setUsers] = useState([]);
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [loggedIn, setLoggedIn] = useState(false);
     const [recipesData, setRecipesData] = useState(null);
-    const [users, setUsers] = useState(getUsersFromLocalStorage());
-    const [shopingListData, setShopingListData] = useState();
+
+    const getUsers = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/users");
+        setUsers(response.data);
+      } catch (err) {
+        console.error(err.toJSON());
+      }
+    };
 
     useEffect(() => {
-      saveUsersToLocalStorage(users);
-    }, [users]);
+      getUsers();
+    }, []);
 
     const currentUser = loggedIn
       ? users.find((user) => user.username === username)
       : null;
 
+    console.log(users, currentUser);
+
     return (
       <AppContext.Provider
         value={{
-          recipesData,
-          setRecipesData,
           users,
-          setUsers,
           username,
           setUsername,
           email,
           setEmail,
+          recipesData,
+          setRecipesData,
           loggedIn,
           setLoggedIn,
           currentUser,
-          shopingListData,
-          setShopingListData,
+          getUsers,
         }}
       >
         <Component {...props} />

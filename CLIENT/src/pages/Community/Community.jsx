@@ -67,9 +67,6 @@ const Community = () => {
   return (
     <div className={styles.community}>
       <div className={styles.dragAndDrop}>
-        <div className={styles.top}>
-          <p>Drag & Drop image uploading</p>
-        </div>
         <div
           className={styles.dragArea}
           onDragOver={onDragOver}
@@ -80,7 +77,8 @@ const Community = () => {
             <span className={styles.select}>Drop images here</span>
           ) : (
             <>
-              Drag & Drop image here or{" "}
+              <p>Drag & Drop image here</p>
+              <p>or</p>
               <span
                 className={styles.select}
                 role="button"

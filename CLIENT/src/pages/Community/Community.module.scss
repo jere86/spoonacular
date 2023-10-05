@@ -6,6 +6,7 @@
   justify-content: center;
 
   .dragAndDrop {
+    width: 35%;
     padding: 0.75rem;
     border-radius: 0.25rem;
     overflow: hidden;
@@ -17,6 +18,7 @@
     p {
       font-weight: bold;
       color: #29a64d;
+      text-align: center;
     }
 
     button {
@@ -39,17 +41,18 @@
       margin-top: 0.75rem;
       padding: 0 0.5rem;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       user-select: none;
 
-      .visible {
-        font-size: 1.25rem;
+      p {
+        font-weight: 400;
       }
 
       .select {
+        font-weight: bold;
         color: #4f875f;
-        margin-left: 0.25rem;
         cursor: pointer;
         transition: 0.4s;
         &:hover {
@@ -59,7 +62,7 @@
 
       input,
       .onDrop,
-      .dragOver .visible {
+      .dragOver {
         display: none;
       }
     }
@@ -97,6 +100,11 @@
 
         .delete {
           z-index: 999;
+
+          &:hover {
+            color: red;
+            font-weight: bold;
+          }
         }
       }
     }

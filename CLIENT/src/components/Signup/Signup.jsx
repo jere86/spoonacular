@@ -4,17 +4,11 @@ import { postRequest } from "../../helpers/http";
 
 import styles from "./Signup.module.scss";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Signup = () => {
-  const {
-    users,
-    setUsers,
-    username,
-    setUsername,
-    email,
-    setEmail,
-    setLoggedIn,
-  } = useContext(AppContext);
+  const { users, username, setUsername, email, setEmail, setLoggedIn } =
+    useContext(AppContext);
 
   const navigate = useNavigate();
 
@@ -33,15 +27,14 @@ const Signup = () => {
         email: email,
       });
 
-      const newUser = {
-        username,
-        email,
-        userData,
+      await axios.post("http://localhost:5000/users", {
+        username: username,
+        email: email,
+        userData: userData,
         favorites: [],
         shopingLists: [],
-      };
+      });
 
-      setUsers([...users, newUser]);
       setLoggedIn(true);
       navigate("/home");
     }
