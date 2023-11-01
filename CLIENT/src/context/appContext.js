@@ -22,13 +22,13 @@ export function AppContextProvider(Component) {
 
     useEffect(() => {
       getUsers();
-    }, []);
+    }, [loggedIn]);
 
     const currentUser = loggedIn
       ? users.find((user) => user.username === username)
       : null;
 
-    console.log(users, currentUser);
+    console.log(currentUser);
 
     return (
       <AppContext.Provider

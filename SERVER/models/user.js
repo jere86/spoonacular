@@ -27,6 +27,9 @@ const userSchema = new mongoose.Schema({
   shopingLists: {
     type: ["Mixed"],
   },
+  images: {
+    type: ["Mixed"],
+  },
 });
 
 module.exports = mongoose.model("User", userSchema);

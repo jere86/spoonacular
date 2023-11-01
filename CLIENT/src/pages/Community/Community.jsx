@@ -1,120 +1,40 @@
-import { useState, useRef } from "react";
+import { useEffect, useState } from "react";
+import DragAndDrop from "../../components/DragAndDrop/DragAndDrop";
+
 import styles from "./Community.module.scss";
+import axios from "axios";
 
 const Community = () => {
   const [images, setImages] = useState([]);
-  const [isDragging, setIsDragging] = useState(false);
-  const fileInputRef = useRef(null);
 
-  const selectFiles = () => {
-    fileInputRef.current.click();
-  };
-
-  const onFileSelect = (e) => {
-    const files = e.target.files;
-    if (files.lenght === 0) return;
-    for (let i = 0; i < files.length; i++) {
-      if (files[i].type.split("/")[0] !== "image") continue;
-      if (!images.some((e) => e.name === files[i].name)) {
-        setImages((prevImages) => [
-          ...prevImages,
-          {
-            name: files[i].name,
-            url: URL.createObjectURL(files[i]),
-          },
-        ]);
-      }
+  const getImages = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/images");
+      setImages(response.data);
+    } catch (err) {
+      console.error(err);
     }
   };
 
-  const deleteImages = (index) => {
-    setImages((prevImages) => prevImages.filter((_, i) => i !== index));
-  };
+  useEffect(() => {
+    getImages();
+  }, []);
 
-  const onDragOver = (e) => {
-    e.preventDefault();
-    setIsDragging(true);
-    e.dataTransfer.dropEffect = "copy";
-  };
-
-  const onDragLeave = (e) => {
-    e.preventDefault();
-    setIsDragging(false);
-  };
-
-  const onDrop = (e) => {
-    e.preventDefault();
-    setIsDragging(false);
-    const files = e.dataTransfer.files;
-    for (let i = 0; i < files.length; i++) {
-      if (files[i].type.split("/")[0] !== "image") continue;
-      if (!images.some((e) => e.name === files[i].name)) {
-        setImages((prevImages) => [
-          ...prevImages,
-          {
-            name: files[i].name,
-            url: URL.createObjectURL(files[i]),
-          },
-        ]);
-      }
-    }
-  };
-
-  const uploadImages = () => {
-    console.log(images);
-  };
+  console.log(images);
 
   return (
     <div className={styles.community}>
-      <div className={styles.dragAndDrop}>
-        <div
-          className={styles.dragArea}
-          onDragOver={onDragOver}
-          onDragLeave={onDragLeave}
-          onDrop={onDrop}
-        >
-          {isDragging ? (
-            <span className={styles.select}>Drop images here</span>
-          ) : (
-            <>
-              <p>Drag & Drop image here</p>
-              <p>or</p>
-              <span
-                className={styles.select}
-                role="button"
-                onClick={selectFiles}
-              >
-                Browse
-              </span>
-            </>
-          )}
-          <input
-            type="file"
-            name="file"
-            className={styles.file}
-            multiple
-            ref={fileInputRef}
-            onChange={onFileSelect}
-          />
-        </div>
-        <div className={styles.images}>
-          {images.map((images, index) => (
-            <div className={styles.image} key={index}>
-              <span
-                className={styles.delete}
-                onClick={() => deleteImages(index)}
-              >
-                &times;
-              </span>
-              <img src={images.url} alt={images.name} />
-            </div>
-          ))}
-        </div>
-
-        <button type="button" onClick={uploadImages}>
-          UPLOAD
-        </button>
-      </div>
+      <DragAndDrop />
+      {images.map((imageset) => {
+        return (
+          <div className={styles.imageset}>
+            <p>{imageset.user}</p>
+            {imageset.images.map((image, index) => {
+              return <img src={image.base64} alt={images.name} key={index} />;
+            })}
+          </div>
+        );
+      })}
     </div>
   );
 };

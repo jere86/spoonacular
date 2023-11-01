@@ -23,6 +23,7 @@ router.post("/", async (req, res) => {
     userData: req.body.userData,
     favorites: req.body.favorites,
     shopingLists: req.body.shopingLists,
+    images: req.body.images,
   });
 
   try {
@@ -48,6 +49,9 @@ router.patch("/:id", getUser, async (req, res) => {
   }
   if (req.body.shopingLists != null) {
     res.user.shopingLists = req.body.shopingLists;
+  }
+  if (req.body.images != null) {
+    res.user.images = req.body.images;
   }
   try {
     const updatedUser = await res.user.save();

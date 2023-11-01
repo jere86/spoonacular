@@ -34,36 +34,6 @@ const Recipe = ({ recipe }) => {
         });
     getUsers();
   };
-  // setUsers((prevUsers) => [
-  //   ...prevUsers.map((user) => {
-  //     if (user.username === username) {
-  //       return {
-  //         ...user,
-  //         favorites: [...user.favorites, recipe],
-  //       };
-  //     } else {
-  //       return {
-  //         ...user,
-  //       };
-  //     }
-  //   }),
-  // ])
-  // setUsers((prevUsers) => [
-  //   ...prevUsers.map((user) => {
-  //     if (user.username === username) {
-  //       return {
-  //         ...user,
-  //         favorites: user.favorites.filter(
-  //           (favorite) => favorite.id !== recipe.id
-  //         ),
-  //       };
-  //     } else {
-  //       return {
-  //         ...user,
-  //       };
-  //     }
-  //   }),
-  // ]);
 
   return (
     <div className={styles.recipe} onClick={showInfo}>

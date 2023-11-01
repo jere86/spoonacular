@@ -33,6 +33,7 @@ const Signup = () => {
         userData: userData,
         favorites: [],
         shopingLists: [],
+        images: [],
       });
 
       setLoggedIn(true);

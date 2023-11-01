@@ -1,7 +1,9 @@
 const express = require("express");
 const cors = require("cors");
+const bodyParser = require("body-parser");
 const app = express();
 
+app.use(bodyParser.json({ limit: 100000000 }));
 app.use(
   cors({
     origin: "*",
@@ -22,5 +24,8 @@ app.use(express.json());
 
 const usersRouter = require("./routes/users");
 app.use("/users", usersRouter);
+
+const imagesRouter = require("./routes/images");
+app.use("/images", imagesRouter);
 
 app.listen(5000, () => console.log("Server started listening on port 5000"));
