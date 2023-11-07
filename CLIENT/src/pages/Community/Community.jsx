@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Comments from "../../components/Comments/Comments";
 import DragAndDrop from "../../components/DragAndDrop/DragAndDrop";
 
 import styles from "./Community.module.scss";
@@ -20,11 +21,9 @@ const Community = () => {
     getImages();
   }, []);
 
-  console.log(images);
-
   return (
     <div className={styles.community}>
-      <DragAndDrop />
+      <DragAndDrop getImages={getImages} />
       {images.map((imageset) => {
         return (
           <div className={styles.imageset}>
@@ -32,6 +31,10 @@ const Community = () => {
             {imageset.images.map((image, index) => {
               return <img src={image.base64} alt={images.name} key={index} />;
             })}
+            <Comments
+              commentList={imageset.comments}
+              imagesetId={imageset._id}
+            />
           </div>
         );
       })}

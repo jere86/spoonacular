@@ -3,7 +3,7 @@ import styles from "./DragAndDrop.module.scss";
 import axios from "axios";
 import { AppContext } from "../../context/appContext";
 
-const DragAndDrop = () => {
+const DragAndDrop = ({ getImages }) => {
   const { currentUser } = useContext(AppContext);
   const [images, setImages] = useState([]);
   const [isDragging, setIsDragging] = useState(false);
@@ -68,11 +68,15 @@ const DragAndDrop = () => {
 
   const uploadImages = async (e) => {
     e.preventDefault();
-    await axios.post(`http://localhost:5000/images`, {
-      images: [...images],
-      user: currentUser.username,
-    });
+
+    if (images.length !== 0) {
+      await axios.post(`http://localhost:5000/images`, {
+        images: [...images],
+        user: currentUser.username,
+      });
+    }
     setImages([]);
+    getImages();
   };
 
   return (

@@ -28,7 +28,7 @@ export function AppContextProvider(Component) {
       ? users.find((user) => user.username === username)
       : null;
 
-    console.log(currentUser);
+    // console.log(currentUser);
 
     return (
       <AppContext.Provider

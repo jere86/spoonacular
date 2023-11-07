@@ -7,6 +7,9 @@ const imageSchema = new mongoose.Schema({
   user: {
     type: "String",
   },
+  comments: {
+    type: ["Mixed"],
+  },
 });
 
 module.exports = mongoose.model("Image", imageSchema);

@@ -12,19 +12,15 @@ router.get("/", async (req, res) => {
   }
 });
 
-// router.get("/:id", getUser, (req, res) => {
-//   res.json(res.user);
-// });
+router.get("/:id", getImage, (req, res) => {
+  res.json(res.image);
+});
 
 router.post("/", async (req, res) => {
   const images = new Image({
-    // username: req.body.username,
-    // email: req.body.email,
-    // userData: req.body.userData,
-    // favorites: req.body.favorites,
-    // shopingLists: req.body.shopingLists,
     images: req.body.images,
     user: req.body.user,
+    comments: req.body.comments,
   });
 
   try {
@@ -35,55 +31,40 @@ router.post("/", async (req, res) => {
   }
 });
 
-// router.patch("/:id", getUser, async (req, res) => {
-//   if (req.body.username != null) {
-//     res.user.username = req.body.username;
-//   }
-//   if (req.body.email != null) {
-//     res.user.email = req.body.email;
-//   }
-//   if (req.body.userData != null) {
-//     res.user.userData = req.body.userData;
-//   }
-//   if (req.body.favorites != null) {
-//     res.user.favorites = req.body.favorites;
-//   }
-//   if (req.body.shopingLists != null) {
-//     res.user.shopingLists = req.body.shopingLists;
-//   }
-//   if (req.body.images != null) {
-//     res.user.images = req.body.images;
-//   }
-//   try {
-//     const updatedUser = await res.user.save();
-//     res.json(updatedUser);
-//   } catch (err) {
-//     res.status(400).json({ message: err.message });
-//   }
-// });
+router.patch("/:id", getImage, async (req, res) => {
+  if (req.body.comments != null) {
+    res.image.comments = req.body.comments;
+  }
+  try {
+    const updatedImage = await res.image.save();
+    res.json(updatedImage);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
 
-// router.delete("/:id", getUser, async (req, res) => {
-//   try {
-//     await res.user.deleteOne();
-//     res.json({ message: "Deleted User" });
-//   } catch (err) {
-//     res.status(500).json({ message: err.message });
-//   }
-// });
+router.delete("/:id", getImage, async (req, res) => {
+  try {
+    await res.image.deleteOne();
+    res.json({ message: "Image Deleted" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 
-// async function getUser(req, res, next) {
-//   let user;
-//   try {
-//     user = await User.findById(req.params.id);
-//     if (user == null) {
-//       return res.status(404).json({ message: "Cannot find user!" });
-//     }
-//   } catch (err) {
-//     return res.status(505).json({ message: err.message });
-//   }
+async function getImage(req, res, next) {
+  let image;
+  try {
+    image = await Image.findById(req.params.id);
+    if (image == null) {
+      return res.status(404).json({ message: "Cannot find image!" });
+    }
+  } catch (err) {
+    return res.status(505).json({ message: err.message });
+  }
 
-//   res.user = user;
-//   next();
-// }
+  res.image = image;
+  next();
+}
 
 module.exports = router;
