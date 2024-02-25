@@ -1,3 +1,14 @@
 .comment {
   display: flex;
+  flex-direction: column;
+
+  .username {
+    margin: 0 0.5rem;
+  }
+
+  .commenttext {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
 }

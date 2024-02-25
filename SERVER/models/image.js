@@ -10,6 +10,12 @@ const imageSchema = new mongoose.Schema({
   comments: {
     type: ["Mixed"],
   },
+  title: {
+    type: "String",
+  },
+  description: {
+    type: "String",
+  },
 });
 
 module.exports = mongoose.model("Image", imageSchema);

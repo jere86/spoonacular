@@ -30,10 +30,15 @@ const CommentForm = ({ onCommentSubmit }) => {
 const Comment = ({ comment, onDelete, user }) => {
   return (
     <div className={styles.comment}>
-      <p>{comment.text}</p>
-      {user._id === comment.userId && (
-        <button onClick={() => onDelete(comment.id)}>Delete</button>
-      )}
+      <p className={styles.username}>
+        <b>{comment.username}</b> wrote:
+      </p>
+      <div className={styles.commenttext}>
+        <p>{comment.text}</p>
+        {user._id === comment.userId && (
+          <button onClick={() => onDelete(comment.id)}>Delete</button>
+        )}
+      </div>
     </div>
   );
 };
@@ -47,6 +52,7 @@ const Comments = ({ commentList, imagesetId }) => {
       id: v4(),
       text: text,
       userId: currentUser._id,
+      username: currentUser.username,
     };
     setComments([...comments, newComment]);
   };
@@ -71,7 +77,7 @@ const Comments = ({ commentList, imagesetId }) => {
     <div className="container">
       <h3>Comment</h3>
       <CommentForm onCommentSubmit={handleCommentSubmit} />
-      <div className="comments">
+      <div className="comments-list">
         {comments.map((comment, index) => (
           <Comment
             key={index}

@@ -21,6 +21,8 @@ router.post("/", async (req, res) => {
     images: req.body.images,
     user: req.body.user,
     comments: req.body.comments,
+    title: req.body.title,
+    description: req.body.description,
   });
 
   try {
