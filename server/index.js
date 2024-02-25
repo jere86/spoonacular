@@ -4,11 +4,7 @@ const bodyParser = require("body-parser");
 const app = express();
 
 app.use(bodyParser.json({ limit: 100000000 }));
-app.use(
-  cors({
-    origin: "*",
-  })
-);
+app.use(cors());
 
 const mongoose = require("mongoose");
 
