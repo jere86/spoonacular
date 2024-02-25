@@ -10,7 +10,9 @@ const Community = () => {
 
   const getImages = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/images");
+      const response = await axios.get(
+        "https://spoonacular-server.vercel.app/images"
+      );
       setImages(response.data);
     } catch (err) {
       console.error(err);

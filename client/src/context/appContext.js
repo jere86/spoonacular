@@ -13,7 +13,9 @@ export function AppContextProvider(Component) {
 
     const getUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/users");
+        const response = await axios.get(
+          "https://spoonacular-server.vercel.app/users"
+        );
         setUsers(response.data);
       } catch (err) {
         console.error(err.toJSON());
