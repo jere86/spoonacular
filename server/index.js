@@ -24,6 +24,10 @@ db.once("open", () => console.log("Connected to Database"));
 
 app.use(express.json());
 
+app.get("/", (res) => {
+  res.json("Hello");
+});
+
 const usersRouter = require("./routes/users");
 app.use("/users", usersRouter);
 
