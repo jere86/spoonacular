@@ -8,6 +8,8 @@ import axios from "axios";
 const Community = () => {
   const [images, setImages] = useState([]);
 
+  axios.defaults.withCredentials = true;
+
   const getImages = async () => {
     try {
       const response = await axios.get(

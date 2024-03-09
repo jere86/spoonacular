@@ -11,6 +11,8 @@ export function AppContextProvider(Component) {
     const [loggedIn, setLoggedIn] = useState(false);
     const [recipesData, setRecipesData] = useState(null);
 
+    axios.defaults.withCredentials = true;
+
     const getUsers = async () => {
       try {
         const response = await axios.get(
