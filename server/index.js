@@ -11,7 +11,7 @@ const app = express();
 app.use(bodyParser.json({ limit: "100mb" }));
 app.use(
   cors({
-    origin: "https://spoonacular-client.vercel.app",
+    origin: "*",
     methods: ["POST", "GET", "PATCH", "DELETE"],
     credentials: true,
   })
