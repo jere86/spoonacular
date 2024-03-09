@@ -6,7 +6,7 @@ const app = express();
 app.use(bodyParser.json({ limit: 100000000 }));
 app.use(
   cors({
-    origin: "https://deploy-menr-1whq.vercel.app",
+    origin: "https://spoonacular-client.vercel.app/",
     methodes: ["POST", "GET", "PATCH", "DELETE"],
     credentials: true,
   })
