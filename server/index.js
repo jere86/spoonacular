@@ -1,5 +1,4 @@
 const express = require("express");
-const bodyParser = require("body-parser");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const usersRouter = require("./routes/users");
@@ -8,20 +7,14 @@ const imagesRouter = require("./routes/images");
 const app = express();
 
 // Middleware
-app.use(bodyParser.json({ limit: "100mb" }));
+app.use(express.json({ limit: "100mb" }));
 app.use(
   cors({
-    origin: "*",
+    origin: "https://spoonacular-api.vercel.app/",
     methods: ["POST", "GET", "PATCH", "DELETE"],
     credentials: true,
   })
 );
-app.use(express.json());
-
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  next();
-});
 
 // Database connection
 mongoose.connect(
