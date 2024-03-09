@@ -1,8 +1,16 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 const app = express();
 
 app.use(bodyParser.json({ limit: 100000000 }));
+app.use(
+  cors({
+    origin: "https://deploy-menr-1whq.vercel.app",
+    methodes: ["POST", "GET", "PATCH", "DELETE"],
+    credentials: true,
+  })
+);
 
 const mongoose = require("mongoose");
 
