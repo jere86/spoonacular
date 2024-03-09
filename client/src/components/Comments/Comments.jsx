@@ -66,9 +66,12 @@ const Comments = ({ commentList, imagesetId }) => {
 
   useEffect(() => {
     const patchData = async () => {
-      await axios.patch(`http://localhost:5000/images/${imagesetId}`, {
-        comments: comments,
-      });
+      await axios.patch(
+        `https://spoonacular-api.vercel.app/images/${imagesetId}`,
+        {
+          comments: comments,
+        }
+      );
     };
     patchData();
   }, [comments, imagesetId]);

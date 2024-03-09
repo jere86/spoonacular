@@ -16,8 +16,8 @@ const Community = () => {
         "https://spoonacular-api.vercel.app/images"
       );
       setImages(response.data);
-    } catch (err) {
-      console.error(err);
+    } catch (error) {
+      console.error("Error fetching images:", error);
     }
   };
 
@@ -31,33 +31,29 @@ const Community = () => {
         <Upload getImages={getImages} />
       </div>
       <div className={styles.uploaded}>
-        {images.map((imageset) => {
-          return (
-            <div className={styles.imageset}>
-              <p className={styles.recipe}>
-                recipe{" "}
-                <span className={styles.title}>
-                  "{imageset.title.toUpperCase()}"
-                </span>{" "}
-                <span className={styles.user}>
-                  by <i>{imageset.user}</i>
-                </span>
-              </p>
-              <div className={styles.images}>
-                {imageset.images.map((image, index) => {
-                  return (
-                    <img src={image.base64} alt={images.name} key={index} />
-                  );
-                })}
-              </div>
-              <p className={styles.description}>{imageset.description}</p>
-              <Comments
-                commentList={imageset.comments}
-                imagesetId={imageset._id}
-              />
+        {images.map((imagesetData) => (
+          <div className={styles.imageset} key={imagesetData._id}>
+            <p className={styles.recipe}>
+              recipe{" "}
+              <span className={styles.title}>
+                {imagesetData.title.toUpperCase()}
+              </span>{" "}
+              <span className={styles.user}>
+                by <i>{imagesetData.user}</i>
+              </span>
+            </p>
+            <div className={styles.images}>
+              {imagesetData.images.map((image, index) => (
+                <img src={image.base64} alt={image.name} key={index} />
+              ))}
             </div>
-          );
-        })}
+            <p className={styles.description}>{imagesetData.description}</p>
+            <Comments
+              commentList={imagesetData.comments}
+              imagesetId={imagesetData._id}
+            />
+          </div>
+        ))}
       </div>
     </div>
   );
