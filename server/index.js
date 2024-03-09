@@ -11,7 +11,13 @@ const app = express();
 app.use(bodyParser.json({ limit: "100mb" }));
 app.use(cors());
 
-app.use(express.json());
+app.use(express.json(app.use(
+  cors({
+    origin: "*",
+    methods: ["POST", "GET", "PATCH", "DELETE"],
+    credentials: true,
+  })
+);));
 
 mongoose.connect(
   "mongodb+srv://saricjerko86:sp4lYkDht1HJ6CZ1@cluster0.cqft3jc.mongodb.net/Spoonacular",
