@@ -32,22 +32,16 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 const specificCorsOptions = {
-  origin: "https://spoonacular-client.vercel.app/users",
   methods: ["POST", "GET", "PATCH", "DELETE"],
   credentials: true,
   optionSuccessStatus: 200,
 };
-app.options("/users", cors(specificCorsOptions));
-app.use("/users", cors(specificCorsOptions));
 
-const specificCorsOptions1 = {
-  origin: "https://spoonacular-client.vercel.app/images",
-  methods: ["POST", "GET", "PATCH", "DELETE"],
-  credentials: true,
-  optionSuccessStatus: 200,
-};
-app.options("/images", cors(specificCorsOptions1));
-app.use("/images", cors(specificCorsOptions1));
+app.options("/users", cors(specificCorsOptions));
+app.use("/users", cors(specificCorsOptions), usersRouter);
+
+app.options("/images", cors(specificCorsOptions));
+app.use("/images", cors(specificCorsOptions), imagesRouter);
 
 // Database connection
 mongoose.connection.on("error", (error) => {
