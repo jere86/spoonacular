@@ -1,5 +1,4 @@
 const express = require("express");
-const cors = require("cors");
 const mongoose = require("mongoose");
 const usersRouter = require("./routes/users");
 const imagesRouter = require("./routes/images");
@@ -7,11 +6,7 @@ const imagesRouter = require("./routes/images");
 const app = express();
 
 // Middleware
-app.use(
-  express.json({
-    limit: "100mb",
-  })
-);
+app.use(express.json({ limit: "10mb" }));
 
 const whitelist = ["https://spoonacular-client.vercel.app"];
 const corsOptions = {
@@ -24,62 +19,70 @@ const corsOptions = {
   },
   methods: ["POST", "GET", "PATCH", "DELETE"],
   credentials: true,
-  optionsSuccessStatus: 200,
+  optionSuccessStatus: 200,
 };
 
 app.use(cors(corsOptions));
 
-app.use((req, res, next) => {
-  res.setHeader(
-    "Access-Control-Allow-Origin",
-    corsOptions.origin(req.header("Origin"))
-  );
-});
-
-app.use((req, res, next) => {
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PUT, PATCH, DELETE"
-  );
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-  next();
-});
-
 // Database connection
-const uri =
-  "mongodb+srv://saricjerko86:sp4lYkDht1HJ6CZ1@cluster0.cqft3jc.mongodb.net/Spoonacular?retryWrites=true&w=majority";
+const uri = `mongodb+srv://saricjerko86:sp4lYkDht1HJ6CZ1@cluster0.cqft3jc.mongodb.net/Spoonacular?retryWrites=true&w=majority`;
 mongoose
   .connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log("Connected to MongoDB"))
+  .then(() => {
+    console.log("Connected to MongoDB");
+    // Start server
+    const PORT = process.env.PORT || 5000;
+    app.listen(PORT, () => {
+      console.log(`Server started listening on port ${PORT}`);
+    });
+  })
   .catch((error) => {
-    console.error("MongoDB connection error:", error);
+    console.error(`MongoDB connection error: ${error.message}`);
     process.exit(1);
+  })
+  .finally(() => {
+    mongoose.connection.close().catch((error) => {
+      console.error("MongoDB connection error:", error.message);
+    });
   });
 
-const db = mongoose.connection;
-db.on("error", (error) => console.error("MongoDB connection error:", error));
+mongoose.connection.on("error", (error) => {
+  console.error(`MongoDB connection error: ${error.message}`);
+  process.exit(1);
+});
 
 // Routes
 app.get("/", (req, res) => {
+  res.setHeader("Content-Type", "application/json");
   res.json("Hello");
 });
 
 app.use("/users", usersRouter);
 app.use("/images", imagesRouter);
 
-// Middleware for error handling
+// Error handling middleware
 app.use((error, req, res, next) => {
   console.error(error.stack);
-  res.status(500).send("Something went wrong.");
-});
-
-// Start server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server started listening on port ${PORT}`);
+  res.status(500).json({ error: error.message });
 });
 
 // Close the MongoDB connection on process exit
 process.on("exit", () => {
-  db.close();
+  mongoose.connection.close().catch((error) => {
+    console.error("MongoDB connection error:", error.message);
+  });
+});
+
+process.on("uncaughtException", (error) => {
+  console.error("Uncaught exception:", error.message);
+  mongoose.connection.close().then(() => {
+    process.exit(1);
+  });
+});
+
+process.on("unhandledRejection", (error) => {
+  console.error("Unhandled rejection:", error.message);
+  mongoose.connection.close().then(() => {
+    process.exit(1);
+  });
 });
