@@ -29,26 +29,26 @@ const Community = () => {
         <Upload getImages={getImages} />
       </div>
       <div className={styles.uploaded}>
-        {images.map((imagesetData) => (
-          <div className={styles.imageset} key={imagesetData._id}>
+        {images.map((imageset) => (
+          <div className={styles.imageset} key={imageset._id}>
             <p className={styles.recipe}>
               recipe{" "}
               <span className={styles.title}>
-                {imagesetData.title.toUpperCase()}
+                {imageset.title.toUpperCase()}
               </span>{" "}
               <span className={styles.user}>
-                by <i>{imagesetData.user}</i>
+                by <i>{imageset.user}</i>
               </span>
             </p>
             <div className={styles.images}>
-              {imagesetData.images.map((image, index) => (
+              {imageset.images.map((image, index) => (
                 <img src={image.base64} alt={image.name} key={index} />
               ))}
             </div>
-            <p className={styles.description}>{imagesetData.description}</p>
+            <p className={styles.description}>{imageset.description}</p>
             <Comments
-              commentList={imagesetData.comments}
-              imagesetId={imagesetData._id}
+              commentList={imageset.comments}
+              imagesetId={imageset._id}
             />
           </div>
         ))}
