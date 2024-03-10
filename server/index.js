@@ -1,8 +1,9 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const usersRouter = require("./routes/users");
-const imagesRouter = require("./routes/images");
+
+const Image = require("./models/image");
+const User = require("./models/user");
 
 const app = express();
 
@@ -58,8 +59,186 @@ app.get("/", (req, res) => {
   res.json("Hello");
 });
 
-app.use("/users", usersRouter);
-app.use("/images", imagesRouter);
+app.get("/images", async (req, res) => {
+  try {
+    const images = await Image.find();
+    res.json(images);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+app.get("/images/:id", async (req, res) => {
+  let image;
+  try {
+    image = await Image.findById(req.params.id);
+    if (image == null) {
+      return res.status(404).json({ message: "Cannot find image!" });
+    }
+  } catch (err) {
+    return res.status(505).json({ message: err.message });
+  }
+
+  res.json(image);
+});
+
+app.post("/images", async (req, res) => {
+  const image = new Image({
+    images: req.body.images,
+    user: req.body.user,
+    comments: req.body.comments,
+    title: req.body.title,
+    description: req.body.description,
+  });
+
+  try {
+    const newImage = await image.save();
+    res.status(201).json(newImage);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+app.patch("/images/:id", async (req, res) => {
+  let image;
+  try {
+    image = await Image.findById(req.params.id);
+    if (image == null) {
+      return res.status(404).json({ message: "Cannot find image!" });
+    }
+  } catch (err) {
+    return res.status(505).json({ message: err.message });
+  }
+
+  if (req.body.comments != null) {
+    image.comments = req.body.comments;
+  }
+
+  try {
+    const updatedImage = await image.save();
+    res.json(updatedImage);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+app.delete("/images/:id", async (req, res) => {
+  let image;
+  try {
+    image = await Image.findById(req.params.id);
+    if (image == null) {
+      return res.status(404).json({ message: "Cannot find image!" });
+    }
+  } catch (err) {
+    return res.status(505).json({ message: err.message });
+  }
+
+  try {
+    await image.deleteOne();
+    res.json({ message: "Image Deleted" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// Define routes for users
+app.get("/users", async (req, res) => {
+  try {
+    const users = await User.find();
+    res.json(users);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+app.get("/users/:id", async (req, res) => {
+  let user;
+  try {
+    user = await User.findById(req.params.id);
+    if (user == null) {
+      return res.status(404).json({ message: "Cannot find user!" });
+    }
+  } catch (err) {
+    return res.status(505).json({ message: err.message });
+  }
+
+  res.json(user);
+});
+
+app.post("/users", async (req, res) => {
+  const user = new User({
+    username: req.body.username,
+    email: req.body.email,
+    userData: req.body.userData,
+    favorites: req.body.favorites,
+    shopingLists: req.body.shopingLists,
+    images: req.body.images,
+  });
+
+  try {
+    const newUser = await user.save();
+    res.status(201).json(newUser);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+app.patch("/users/:id", async (req, res) => {
+  let user;
+  try {
+    user = await User.findById(req.params.id);
+    if (user == null) {
+      return res.status(404).json({ message: "Cannot find user!" });
+    }
+  } catch (err) {
+    return res.status(505).json({ message: err.message });
+  }
+
+  if (req.body.username != null) {
+    user.username = req.body.username;
+  }
+  if (req.body.email != null) {
+    user.email = req.body.email;
+  }
+  if (req.body.userData != null) {
+    user.userData = req.body.userData;
+  }
+  if (req.body.favorites != null) {
+    user.favorites = req.body.favorites;
+  }
+  if (req.body.shopingLists != null) {
+    user.shopingLists = req.body.shopingLists;
+  }
+  if (req.body.images != null) {
+    user.images = req.body.images;
+  }
+
+  try {
+    const updatedUser = await user.save();
+    res.json(updatedUser);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+app.delete("/users/:id", async (req, res) => {
+  let user;
+  try {
+    user = await User.findById(req.params.id);
+    if (user == null) {
+      return res.status(404).json({ message: "Cannot find user!" });
+    }
+  } catch (err) {
+    return res.status(505).json({ message: err.message });
+  }
+
+  try {
+    await user.deleteOne();
+    res.json({ message: "User Deleted" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 
 // Error handling middleware
 app.use((error, req, res, next) => {

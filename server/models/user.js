@@ -2,34 +2,28 @@ const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
   username: {
-    type: "String",
+    type: String,
   },
   email: {
-    type: "String",
+    type: String,
   },
   userData: {
     status: {
-      type: "String",
+      type: String,
     },
     username: {
-      type: "String",
+      type: String,
     },
     spoonacularPassword: {
-      type: "String",
+      type: String,
     },
     hash: {
-      type: "String",
+      type: String,
     },
   },
-  favorites: {
-    type: ["Mixed"],
-  },
-  shopingLists: {
-    type: ["Mixed"],
-  },
-  images: {
-    type: ["Mixed"],
-  },
+  favorites: [{}],
+  shopingLists: [{}],
+  images: [{}],
 });
 
 module.exports = mongoose.model("User", userSchema);
