@@ -27,7 +27,7 @@ const Signup = () => {
         email: email,
       });
 
-      await axios.post("spoonacular-api.vercel.app/users", {
+      await axios.post("https://spoonacular-api.onrender.com/users", {
         username: username,
         email: email,
         userData: userData,

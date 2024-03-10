@@ -79,7 +79,7 @@ const Upload = ({ getImages }) => {
       (formData.title !== "") &
       (formData.description !== "")
     ) {
-      await axios.post(`spoonacular-api.vercel.app/images`, {
+      await axios.post(`https://spoonacular-api.onrender.com/images`, {
         images: [...images],
         user: currentUser.username,
         title: formData.title,

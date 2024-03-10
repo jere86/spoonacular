@@ -16,7 +16,7 @@ export function AppContextProvider(Component) {
     const getUsers = async () => {
       try {
         const response = await axios.get(
-          "https://spoonacular-api.vercel.app/users"
+          "https://spoonacular-api.onrender.com/users"
         );
         setUsers(response.data);
       } catch (err) {

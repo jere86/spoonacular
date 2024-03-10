@@ -13,7 +13,7 @@ const Community = () => {
   const getImages = async () => {
     try {
       const response = await axios.get(
-        "https://spoonacular-api.vercel.app/images"
+        "https://spoonacular-api.onrender.com/images"
       );
       setImages(response.data);
     } catch (error) {
