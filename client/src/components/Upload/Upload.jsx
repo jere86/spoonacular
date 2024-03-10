@@ -72,7 +72,6 @@ const Upload = ({ getImages }) => {
 
   const uploadImages = async (e) => {
     e.preventDefault();
-    axios.defaults.withCredentials = true;
 
     if (
       (images.length !== 0) &
