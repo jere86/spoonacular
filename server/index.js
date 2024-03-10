@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+require("dotenv").config();
 const cors = require("cors");
 
 const usersRouter = require("./routes/users");
@@ -49,14 +50,15 @@ app.options("/images", cors(specificCorsOptions1));
 app.use("/images", cors(specificCorsOptions1));
 
 // Database connection
-const uri = `mongodb+srv://saricjerko86:sp4lYkDht1HJ6CZ1@cluster0.cqft3jc.mongodb.net/Spoonacular?retryWrites=true&w=majority`;
-
 mongoose.connection.on("error", (error) => {
   console.error(`MongoDB connection error: ${error.message}`);
 });
 
 mongoose
-  .connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(process.env.MONGODB_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => {
     console.log("Connected to MongoDB");
     // Start server
