@@ -30,6 +30,24 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+const specificCorsOptions = {
+  origin: "https://spoonacular-client.vercel.app/users",
+  methods: ["POST", "GET", "PATCH", "DELETE"],
+  credentials: true,
+  optionSuccessStatus: 200,
+};
+app.options("/users", cors(specificCorsOptions));
+app.use("/users", cors(specificCorsOptions));
+
+const specificCorsOptions1 = {
+  origin: "https://spoonacular-client.vercel.app/images",
+  methods: ["POST", "GET", "PATCH", "DELETE"],
+  credentials: true,
+  optionSuccessStatus: 200,
+};
+app.options("/images", cors(specificCorsOptions1));
+app.use("/images", cors(specificCorsOptions1));
+
 // Database connection
 const uri = `mongodb+srv://saricjerko86:sp4lYkDht1HJ6CZ1@cluster0.cqft3jc.mongodb.net/Spoonacular?retryWrites=true&w=majority`;
 
