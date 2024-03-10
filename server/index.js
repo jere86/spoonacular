@@ -10,7 +10,11 @@ const app = express();
 // Middleware
 app.use(express.json({ limit: "10mb" }));
 
-const whitelist = ["https://spoonacular-client.vercel.app"];
+const whitelist = [
+  "https://spoonacular-client.vercel.app",
+  "https://spoonacular-client.vercel.app/users",
+  "https://spoonacular-client.vercel.app/images",
+];
 const corsOptions = {
   origin: (origin, callback) => {
     if (whitelist.indexOf(origin) !== -1 || !origin) {
@@ -28,6 +32,11 @@ app.use(cors(corsOptions));
 
 // Database connection
 const uri = `mongodb+srv://saricjerko86:sp4lYkDht1HJ6CZ1@cluster0.cqft3jc.mongodb.net/Spoonacular?retryWrites=true&w=majority`;
+
+mongoose.connection.on("error", (error) => {
+  console.error(`MongoDB connection error: ${error.message}`);
+});
+
 mongoose
   .connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
@@ -41,17 +50,7 @@ mongoose
   .catch((error) => {
     console.error(`MongoDB connection error: ${error.message}`);
     process.exit(1);
-  })
-  .finally(() => {
-    mongoose.connection.close().catch((error) => {
-      console.error("MongoDB connection error:", error.message);
-    });
   });
-
-mongoose.connection.on("error", (error) => {
-  console.error(`MongoDB connection error: ${error.message}`);
-  process.exit(1);
-});
 
 // Routes
 app.get("/", (req, res) => {
@@ -247,22 +246,19 @@ app.use((error, req, res, next) => {
 });
 
 // Close the MongoDB connection on process exit
-process.on("exit", () => {
-  mongoose.connection.close().catch((error) => {
-    console.error("MongoDB connection error:", error.message);
+process.on("SIGINT", () => {
+  mongoose.connection.close(() => {
+    console.log("MongoDB connection closed");
+    process.exit(0);
   });
 });
 
 process.on("uncaughtException", (error) => {
   console.error("Uncaught exception:", error.message);
-  mongoose.connection.close().then(() => {
-    process.exit(1);
-  });
+  process.exit(1);
 });
 
 process.on("unhandledRejection", (error) => {
   console.error("Unhandled rejection:", error.message);
-  mongoose.connection.close().then(() => {
-    process.exit(1);
-  });
+  process.exit(1);
 });
