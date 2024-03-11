@@ -16,6 +16,7 @@ const Community = () => {
       setImages(response.data);
     } catch (error) {
       console.error("Error fetching images:", error);
+      setImages([]);
     }
   };
 
@@ -29,29 +30,30 @@ const Community = () => {
         <Upload getImages={getImages} />
       </div>
       <div className={styles.uploaded}>
-        {images.map((imageset) => (
-          <div className={styles.imageset} key={imageset._id}>
-            <p className={styles.recipe}>
-              recipe{" "}
-              <span className={styles.title}>
-                {imageset.title.toUpperCase()}
-              </span>{" "}
-              <span className={styles.user}>
-                by <i>{imageset.user}</i>
-              </span>
-            </p>
-            <div className={styles.images}>
-              {imageset.images.map((image, index) => (
-                <img src={image.base64} alt={image.name} key={index} />
-              ))}
+        {images.length > 0 &&
+          images.map((imageset) => (
+            <div className={styles.imageset} key={imageset._id}>
+              <p className={styles.recipe}>
+                recipe{" "}
+                <span className={styles.title}>
+                  {imageset.title.toUpperCase()}
+                </span>{" "}
+                <span className={styles.user}>
+                  by <i>{imageset.user}</i>
+                </span>
+              </p>
+              <div className={styles.images}>
+                {imageset.images.map((image, index) => (
+                  <img src={image.base64} alt={image.name} key={index} />
+                ))}
+              </div>
+              <p className={styles.description}>{imageset.description}</p>
+              <Comments
+                commentList={imageset.comments}
+                imagesetId={imageset._id}
+              />
             </div>
-            <p className={styles.description}>{imageset.description}</p>
-            <Comments
-              commentList={imageset.comments}
-              imagesetId={imageset._id}
-            />
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   );
