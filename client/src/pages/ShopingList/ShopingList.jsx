@@ -24,14 +24,14 @@ const ShopingList = () => {
   };
 
   const saveSL = async (SL) => {
-    await axios.patch(`http://localhost:5000/users/${currentUser._id}`, {
+    await axios.patch(`https://spoonacular-api.onrender.com/users/${currentUser._id}`, {
       shopingLists: [...currentUser.shopingLists, SL],
     });
     getUsers();
   };
 
   const delSL = async (SL) => {
-    await axios.patch(`http://localhost:5000/users/${currentUser._id}`, {
+    await axios.patch(`https://spoonacular-api.onrender.com/users/${currentUser._id}`, {
       shopingLists: currentUser.shopingLists.filter(
         (shopingList) => shopingList !== SL
       ),
