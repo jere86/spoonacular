@@ -16,7 +16,7 @@ const Community = () => {
       setImages(response.data);
     } catch (error) {
       console.error("Error fetching images:", error);
-      setImages([]);
+      alert("Error fetching images. Please try again later.");
     }
   };
 
@@ -24,10 +24,14 @@ const Community = () => {
     getImages();
   }, []);
 
+  const handleUploadSuccess = (newImage) => {
+    setImages((prevImages) => [...prevImages, newImage]);
+  };
+
   return (
     <div className={styles.community}>
       <div className={styles.upload}>
-        <Upload getImages={getImages} />
+        <Upload getImages={handleUploadSuccess} />
       </div>
       <div className={styles.uploaded}>
         {images.length > 0 &&
