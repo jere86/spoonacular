@@ -1,7 +1,9 @@
 const mongoose = require("mongoose");
 
 const imageSchema = new mongoose.Schema({
-  images: [String],
+  images: {
+    type: ["Mixed"],
+  },
   user: {
     type: "String",
   },
