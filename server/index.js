@@ -15,9 +15,6 @@ const whitelist = [
   "https://spoonacular-client.vercel.app",
   "https://spoonacular-client.vercel.app/users",
   "https://spoonacular-client.vercel.app/images",
-  "https://localhost:3000",
-  "https://localhost:3000/users",
-  "https://localhost:3000/images",
 ];
 const corsOptions = {
   origin: (origin, callback) => {
