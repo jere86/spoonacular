@@ -13,6 +13,7 @@ const Community = () => {
       const response = await axios.get(
         "https://spoonacular-api.onrender.com/images"
       );
+      console.log(response.data);
       setImages(response.data);
     } catch (error) {
       console.error("Error fetching images:", error);
@@ -22,6 +23,8 @@ const Community = () => {
   useEffect(() => {
     getImages();
   }, []);
+
+  console.log(images);
 
   return (
     <div className={styles.community}>
